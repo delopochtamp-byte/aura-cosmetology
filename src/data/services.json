@@ -1,0 +1,292 @@
+[
+  {
+    "id": 1,
+    "category": "face",
+    "title": {
+      "ru": "Чистка лица",
+      "en": "Facial Cleansing",
+      "zh": "面部清洁",
+      "kk": "Бетті тазалау"
+    },
+    "description": {
+      "ru": "Глубокая чистка лица с использованием ультразвука и вакуумного пилинга. Удаление комедонов, себума и ороговевших клеток. Подходит для всех типов кожи.",
+      "en": "Deep facial cleansing using ultrasound and vacuum peeling. Removal of comedones, sebum and dead skin cells. Suitable for all skin types.",
+      "zh": "使用超声波和真空换肤进行深层面部清洁。去除粉刺、皮脂和死皮细胞。适合所有肤质。",
+      "kk": "Ультрадыбыс және вакуумды пилинг көмегімен бетті терең тазалау. Комедондарды, себумды және өлі тері жасушаларын жою. Барлық тері түрлеріне жарамды."
+    },
+    "benefits": {
+      "ru": "Очищение пор, улучшение цвета лица, сужение пор, профилактика акне, увлажнение кожи",
+      "en": "Pore cleansing, improved complexion, pore tightening, acne prevention, skin hydration",
+      "zh": "清洁毛孔，改善肤色，收缩毛孔，预防痤疮，滋润肌肤",
+      "kk": "Тесіктерді тазарту, бет түсін жақсарту, тесіктерді тарылту, безеудің алдын алу, теріні ылғалдандыру"
+    },
+    "price": 3500,
+    "duration": "60 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-1.jpg"
+    },
+    "likes": 407
+  },
+  {
+    "id": 2,
+    "category": "injections",
+    "title": {
+      "ru": "Биоревитализация",
+      "en": "Biorevitalization",
+      "zh": "生物修复",
+      "kk": "Биоревитализация"
+    },
+    "description": {
+      "ru": "Инъекционная процедура с гиалуроновой кислотой для глубокого увлажнения и омоложения кожи. Стимулирует выработку коллагена и эластина.",
+      "en": "Injectable procedure with hyaluronic acid for deep hydration and skin rejuvenation. Stimulates collagen and elastin production.",
+      "zh": "使用透明质酸进行注射治疗，深层补水和肌肤 rejuvenation。刺激胶原蛋白和弹性蛋白的产生。",
+      "kk": "Теріні терең ылғалдандыру және жасарту үшін гиалурон қышқылымен инъекциялық процедура. Коллаген мен эластин өндірісін ынталандырады."
+    },
+    "benefits": {
+      "ru": "Глубокое увлажнение, разглаживание морщин, улучшение тонуса, лифтинг-эффект, сияние кожи",
+      "en": "Deep hydration, wrinkle smoothing, improved tone, lifting effect, skin radiance",
+      "zh": "深层补水，抚平皱纹，改善肤色，提升效果，肌肤光泽",
+      "kk": "Терең ылғалдандыру, әжімдерді тегістеу, тонусты жақсарту, лифтинг эффектісі, терінің жарқырауы"
+    },
+    "price": 8500,
+    "duration": "45 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-2.jpg"
+    },
+    "likes": 523
+  },
+  {
+    "id": 3,
+    "category": "body",
+    "title": {
+      "ru": "Массаж тела",
+      "en": "Full Body Massage",
+      "zh": "全身按摩",
+      "kk": "Дене массажы"
+    },
+    "description": {
+      "ru": "Расслабляющий массаж всего тела с использованием ароматических масел. Снимает мышечное напряжение, улучшает кровообращение и лимфоток.",
+      "en": "Relaxing full body massage with aromatic oils. Relieves muscle tension, improves blood circulation and lymph flow.",
+      "zh": "使用芳香精油进行全身放松按摩。缓解肌肉紧张，改善血液循环和淋巴流动。",
+      "kk": "Хош иісті майлармен бүкіл денені босаңсытатын массаж. Бұлшықет кернеуін жеңілдетеді, қан айналымын және лимфа ағынын жақсартады."
+    },
+    "benefits": {
+      "ru": "Снятие стресса, улучшение сна, детокс, повышение гибкости, снятие мышечных зажимов",
+      "en": "Stress relief, improved sleep, detox, increased flexibility, muscle tension relief",
+      "zh": "缓解压力，改善睡眠，排毒，提高柔韧性，缓解肌肉紧张",
+      "kk": "Стрессті жеңілдету, ұйқыны жақсарту, детокс, икемділікті арттыру, бұлшықет қысылуын жеңілдету"
+    },
+    "price": 5000,
+    "duration": "90 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-3.jpg"
+    },
+    "likes": 312
+  },
+  {
+    "id": 4,
+    "category": "hardware",
+    "title": {
+      "ru": "RF-лифтинг",
+      "en": "RF Lifting",
+      "zh": "射频提升",
+      "kk": "RF-лифтинг"
+    },
+    "description": {
+      "ru": "Аппаратная процедура с использованием радиочастотного излучения для подтяжки кожи. Стимулирует неоколлагенез и ремоделирование тканей.",
+      "en": "Hardware procedure using radio frequency radiation for skin tightening. Stimulates neocollagenesis and tissue remodeling.",
+      "zh": "使用射频辐射进行皮肤紧致的仪器治疗。刺激新胶原生成和组织重塑。",
+      "kk": "Теріні тарту үшін радио жиілікті сәулеленуді қолданатын аппараттық процедура. Неоколлагенезді және тіндердің қайта құрылуын ынталандырады."
+    },
+    "benefits": {
+      "ru": "Подтяжка овала лица, уменьшение морщин, улучшение тургора, лифтинг без операции",
+      "en": "Facial contour lifting, wrinkle reduction, improved skin turgor, non-surgical lifting",
+      "zh": "面部轮廓提升，减少皱纹，改善皮肤弹性，非手术提升",
+      "kk": "Бет сопақшасын тарту, әжімдерді азайту, тері тургорын жақсарту, операциясыз лифтинг"
+    },
+    "price": 12000,
+    "duration": "50 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-4.jpg"
+    },
+    "likes": 289
+  },
+  {
+    "id": 5,
+    "category": "hair",
+    "title": {
+      "ru": "Лазерная эпиляция",
+      "en": "Laser Hair Removal",
+      "zh": "激光脱毛",
+      "kk": "Лазерді эпиляция"
+    },
+    "description": {
+      "ru": "Безболезненное удаление нежелательных волос на диодном лазере. Подходит для любого типа кожи и волос. Долговременный результат.",
+      "en": "Painless removal of unwanted hair with diode laser. Suitable for any skin and hair type. Long-lasting results.",
+      "zh": "使用二极管激光无痛去除多余毛发。适合任何皮肤和毛发类型。效果持久。",
+      "kk": "Диодты лазермен қажетсіз түктерді ауыртпалықсыз алып тастау. Тері мен шаштың кез келген түріне жарамды. Ұзақ мерзімді нәтиже."
+    },
+    "benefits": {
+      "ru": "Гладкая кожа, отсутствие вросших волос, экономия времени, без раздражения",
+      "en": "Smooth skin, no ingrown hairs, time saving, no irritation",
+      "zh": "光滑肌肤，无内生毛发，节省时间，无刺激",
+      "kk": "Тегіс тері, өскен түктердің болмауы, уақытты үнемдеу, тітіркенусіз"
+    },
+    "price": 3000,
+    "duration": "30 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-5.jpg"
+    },
+    "likes": 445
+  },
+  {
+    "id": 6,
+    "category": "laser",
+    "title": {
+      "ru": "Лазерное омоложение",
+      "en": "Laser Rejuvenation",
+      "zh": "激光嫩肤",
+      "kk": "Лазерлік жасарту"
+    },
+    "description": {
+      "ru": "Фракционное лазерное омоложение для коррекции морщин, рубцов и пигментации. Запускает процессы регенерации кожи на клеточном уровне.",
+      "en": "Fractional laser rejuvenation for correction of wrinkles, scars and pigmentation. Triggers skin regeneration at the cellular level.",
+      "zh": "点阵激光嫩肤，用于矫正皱纹、疤痕和色素沉着。在细胞水平触发皮肤再生。",
+      "kk": "Әжімдерді, тыртықтарды және пигментацияны түзетуге арналған фракциялық лазерлік жасарту. Жасуша деңгейінде терінің регенерация процестерін іске қосады."
+    },
+    "benefits": {
+      "ru": "Обновление кожи, уменьшение рубцов, выравнивание тона, сужение пор, лифтинг",
+      "en": "Skin renewal, scar reduction, even skin tone, pore tightening, lifting",
+      "zh": "皮肤更新，减少疤痕，均匀肤色，收缩毛孔，提升",
+      "kk": "Теріні жаңарту, тыртықтарды азайту, тонды тегістеу, тесіктерді тарылту, лифтинг"
+    },
+    "price": 15000,
+    "duration": "40 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-6.jpg"
+    },
+    "likes": 367
+  },
+  {
+    "id": 7,
+    "category": "massage",
+    "title": {
+      "ru": "Скульптурный массаж",
+      "en": "Sculptural Massage",
+      "zh": "雕塑按摩",
+      "kk": "Мүсіндік массаж"
+    },
+    "description": {
+      "ru": "Глубокий остеопатический массаж лица и шеи. Моделирует овал лица, убирает отёки и второй подбородок, расслабляет жевательные мышцы.",
+      "en": "Deep osteopathic massage of face and neck. Models facial contour, removes swelling and double chin, relaxes masticatory muscles.",
+      "zh": "面部和颈部深层整骨按摩。塑造面部轮廓，消除浮肿和双下巴，放松咀嚼肌。",
+      "kk": "Бет пен мойынның терең остеопатиялық массажы. Бет сопақшасын модельдейді, ісінуді және қос иекті кетіреді, шайнау бұлшықеттерін босаңсытады."
+    },
+    "benefits": {
+      "ru": "Четкий овал лица, уменьшение отеков, расслабление мышц, лимфодренаж, омоложение",
+      "en": "Clear facial contour, reduced swelling, muscle relaxation, lymphatic drainage, rejuvenation",
+      "zh": "清晰的面部轮廓，减少浮肿，放松肌肉，淋巴引流，嫩肤",
+      "kk": "Беттің анық сопақшасы, ісінудің төмендеуі, бұлшықеттердің босаңсуы, лимфодренаж, жасарту"
+    },
+    "price": 4500,
+    "duration": "75 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-7.jpg"
+    },
+    "likes": 278
+  },
+  {
+    "id": 8,
+    "category": "peeling",
+    "title": {
+      "ru": "Химический пилинг",
+      "en": "Chemical Peel",
+      "zh": "化学换肤",
+      "kk": "Химиялық пилинг"
+    },
+    "description": {
+      "ru": "Срединный химический пилинг на основе AHA-кислот. Эффективно обновляет кожу, убирает пигментацию, постакне и мелкие морщины.",
+      "en": "Medium chemical peel based on AHA acids. Effectively renews skin, removes pigmentation, post-acne and fine wrinkles.",
+      "zh": "基于AHA酸的中度化学换肤。有效更新皮肤，去除色素沉着、痘印和细纹。",
+      "kk": "AHA қышқылдарына негізделген орташа химиялық пилинг. Теріні тиімді жаңартады, пигментацияны, безеуден кейінгі және ұсақ әжімдерді кетіреді."
+    },
+    "benefits": {
+      "ru": "Обновление кожи, осветление пигментации, сужение пор, разглаживание рельефа",
+      "en": "Skin renewal, pigmentation lightening, pore tightening, texture smoothing",
+      "zh": "皮肤更新，淡化色素沉着，收缩毛孔，抚平纹理",
+      "kk": "Теріні жаңарту, пигментацияны ағарту, тесіктерді тарылту, бедерді тегістеу"
+    },
+    "price": 6500,
+    "duration": "55 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-8.jpg"
+    },
+    "likes": 334
+  },
+  {
+    "id": 9,
+    "category": "care",
+    "title": {
+      "ru": "SPA-уход за лицом",
+      "en": "Facial SPA Care",
+      "zh": "面部SPA护理",
+      "kk": "Бетке SPA-күтім"
+    },
+    "description": {
+      "ru": "Комплексный SPA-уход с использованием профессиональной косметики. Включает очищение, тонизирование, сыворотку, массаж и маску.",
+      "en": "Comprehensive SPA care using professional cosmetics. Includes cleansing, toning, serum, massage and mask.",
+      "zh": "使用专业化妆品的综合SPA护理。包括清洁、爽肤、精华、按摩和面膜。",
+      "kk": "Кәсіби косметиканы қолданатын кешенді SPA-күтім. Тазалау, тонизация, сарысу, массаж және масканы қамтиды."
+    },
+    "benefits": {
+      "ru": "Интенсивное питание, увлажнение, сияние кожи, релаксация, здоровый цвет лица",
+      "en": "Intensive nutrition, hydration, skin radiance, relaxation, healthy complexion",
+      "zh": "密集滋养，补水，肌肤光泽，放松，健康肤色",
+      "kk": "Қарқынды тамақтану, ылғалдандыру, терінің жарқырауы, релаксация, сау бет түсі"
+    },
+    "price": 5500,
+    "duration": "80 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-9.jpg"
+    },
+    "likes": 456
+  },
+  {
+    "id": 10,
+    "category": "surgery",
+    "title": {
+      "ru": "Плазмолифтинг",
+      "en": "Plasmolifting",
+      "zh": "血浆提升",
+      "kk": "Плазмолифтинг"
+    },
+    "description": {
+      "ru": "Инъекционная процедура собственной плазмой крови, обогащенной тромбоцитами. Запускает мощные процессы регенерации и омоложения.",
+      "en": "Injectable procedure with your own platelet-rich blood plasma. Triggers powerful regeneration and rejuvenation processes.",
+      "zh": "使用自身富含血小板的血浆进行注射治疗。触发强大的再生和 rejuvenation 过程。",
+      "kk": "Тромбоциттерге байытылған өз қан плазмасымен инъекциялық процедура. Регенерация мен жасартудың күшті процестерін іске қосады."
+    },
+    "benefits": {
+      "ru": "Стимуляция коллагена, улучшение качества кожи, лечение акне, омоложение без аллергии",
+      "en": "Collagen stimulation, improved skin quality, acne treatment, allergy-free rejuvenation",
+      "zh": "刺激胶原蛋白，改善皮肤质量，治疗痤疮，无过敏 rejuvenation",
+      "kk": "Коллагенді ынталандыру, тері сапасын жақсарту, безеуді емдеу, аллергиясыз жасарту"
+    },
+    "price": 7500,
+    "duration": "40 мин",
+    "media": {
+      "type": "image",
+      "src": "/media/placeholder-10.jpg"
+    },
+    "likes": 512
+  }
+]

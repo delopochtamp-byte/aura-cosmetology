@@ -1,0 +1,66 @@
+import { useState, useMemo } from 'react';
+import services from '../data/services.json';
+import ServiceCard from './ServiceCard';
+import SearchBar from './SearchBar';
+
+export default function FeedPage({
+  getLocalized, t, isLiked, getCount,
+  onToggleLike, onBooking, lang,
+  searchActive, onSearchClose, category
+}) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filtered = useMemo(() => {
+    let result = services;
+
+    // Фильтр по категории
+    if (category && category !== 'all') {
+      result = result.filter(s => s.category === category);
+    }
+
+    // Фильтр по поиску
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(s => {
+        const title = (s.title[lang] || s.title.ru || '').toLowerCase();
+        return title.includes(q);
+      });
+    }
+
+    return result;
+  }, [searchQuery, lang, category]);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  return (
+    <div className="feed-page">
+      {searchActive && (
+        <SearchBar onSearch={handleSearch} onClose={onSearchClose} t={t} />
+      )}
+
+      <div className="feed-scroll-container hide-scrollbar">
+        {filtered.length === 0 ? (
+          <div className="feed-empty">
+            <div className="feed-empty-icon">🔍</div>
+            <p className="feed-empty-text">{t('site.nothing_found')}</p>
+          </div>
+        ) : (
+          filtered.map(service => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              getLocalized={getLocalized}
+              t={t}
+              isLiked={isLiked}
+              getCount={getCount}
+              onToggleLike={onToggleLike}
+              onBooking={onBooking}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
