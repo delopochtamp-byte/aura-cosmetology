@@ -54,6 +54,21 @@ export default function SchedulePage({ t }) {
   const [selectedTime, setSelectedTime] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
 
+  // Состояние темы: читаем текущую из <html data-theme>
+  const getInitialTheme = () => {
+    if (typeof document !== 'undefined') {
+      return document.documentElement.getAttribute('data-theme') || 'light';
+    }
+    return 'light';
+  };
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+  };
+
   const now = new Date();
   const monthDays = getMonthDays();
   const monthLabel = `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
@@ -83,70 +98,86 @@ export default function SchedulePage({ t }) {
 
   return (
     <div className="schedule-page">
-      {/* Header */}
-      <div className="schedule-page-header">
-        <button className="schedule-page-back" onClick={() => navigate('/')}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M12 4L6 10L12 16" />
-          </svg>
-        </button>
-        <h1>{t('site.schedule_title') || 'Расписание'}</h1>
-      </div>
-
-      {/* Filters Row: город + дата на одной строке */}
-      <div className="schedule-filters-row">
-        {/* City Select */}
-        <select
-          className="schedule-city-select"
-          value={selectedCity}
-          onChange={(e) => setSelectedCity(e.target.value)}
-        >
-          {CITIES.map(city => (
-            <option key={city.key} value={city.key}>
-              {city.label}
-            </option>
-          ))}
-        </select>
-
-        {/* Date Selector */}
-        <div className="date-selector">
-          <button
-            className="date-selector-btn"
-            onClick={() => setShowCalendar(!showCalendar)}
-          >
-            <span className="date-selector-icon">✈</span>
-            <span className="date-selector-text">
-              {selectedDate
-                ? `${formatDate(selectedDate)}.${now.getFullYear()}`
-                : (t('site.schedule_date') || 'Выберите дату')}
-            </span>
-            <span className={`date-selector-arrow${showCalendar ? ' open' : ''}`}>▾</span>
+      <div className="schedule-sticky-top">
+        {/* Header */}
+        <div className="schedule-page-header">
+          <button className="schedule-page-theme-toggle" onClick={toggleTheme} title="Сменить тему">
+            {theme === 'light' ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+            )}
           </button>
+          <h1>{t('site.schedule_title') || 'Расписание'}</h1>
+        </div>
 
-          {showCalendar && (
-            <div className="date-calendar">
-              <div className="date-calendar-header">{monthLabel}</div>
-              <div className="date-calendar-grid">
-                {DAY_NAMES.map(d => (
-                  <div key={d} className="date-calendar-day-header">{d}</div>
-                ))}
-                {monthDays.map((day, i) => (
-                  <div
-                    key={i}
-                    className={`date-calendar-day${day === null ? ' empty' : ''}${day === selectedDate ? ' selected' : ''}`}
-                    onClick={() => {
-                      if (day !== null) {
-                        setSelectedDate(day);
-                        setShowCalendar(false);
-                      }
-                    }}
-                  >
-                    {day || ''}
-                  </div>
-                ))}
+        {/* Filters Row: город + дата на одной строке */}
+        <div className="schedule-filters-row">
+          {/* City Select */}
+          <select
+            className="schedule-city-select"
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+          >
+            {CITIES.map(city => (
+              <option key={city.key} value={city.key}>
+                {city.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Date Selector */}
+          <div className="date-selector">
+            <button
+              className="date-selector-btn"
+              onClick={() => setShowCalendar(!showCalendar)}
+            >
+              <span className="date-selector-icon">✈</span>
+              <span className="date-selector-text">
+                {selectedDate
+                  ? `${formatDate(selectedDate)}.${now.getFullYear()}`
+                  : (t('site.schedule_date') || 'Выберите дату')}
+              </span>
+              <span className={`date-selector-arrow${showCalendar ? ' open' : ''}`}>▾</span>
+            </button>
+
+            {showCalendar && (
+              <div className="date-calendar">
+                <div className="date-calendar-header">{monthLabel}</div>
+                <div className="date-calendar-grid">
+                  {DAY_NAMES.map(d => (
+                    <div key={d} className="date-calendar-day-header">{d}</div>
+                  ))}
+                  {monthDays.map((day, i) => (
+                    <div
+                      key={i}
+                      className={`date-calendar-day${day === null ? ' empty' : ''}${day === selectedDate ? ' selected' : ''}`}
+                      onClick={() => {
+                        if (day !== null) {
+                          setSelectedDate(day);
+                          setShowCalendar(false);
+                        }
+                      }}
+                    >
+                      {day || ''}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
