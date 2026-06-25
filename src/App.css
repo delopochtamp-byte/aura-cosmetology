@@ -573,120 +573,77 @@
   font-weight: 600;
 }
 
-/* ---------- Side Bubbles Toggle Menu (справа, кнопка + выпадающие пузырьки) ---------- */
-.side-bubbles-wrap {
+/* ---------- Bottom Tab Bar (4 кнопки внизу, как paintx.ru) ---------- */
+.bottom-tab-bar {
   position: fixed;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 150;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 64px;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.bottom-tab-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-}
-
-.sun-toggle-wrap {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-}
-
-.sun-ring {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: sunSpin 8s linear infinite;
-  color: var(--text);
-  pointer-events: none;
-  user-select: none;
-}
-
-.sun-eye-svg {
-  animation: sunSpin 6s linear infinite;
-}
-
-.side-bubbles-toggle {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1.5px solid var(--text);
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.side-bubbles-toggle:hover {
-  transform: scale(1.08);
-  background: var(--bg-secondary);
-}
-
-.side-bubbles-toggle:active {
-  transform: scale(0.95);
-}
-
-.side-bubbles-toggle.active {
-  background: var(--text);
-  color: var(--bg);
-  border-color: var(--text);
-}
-
-.side-bubbles {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 8px 4px;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 28px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  animation: fadeIn 0.2s ease-out;
-}
-
-.side-bubble {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  font-size: 16px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: transparent;
+  gap: 2px;
+  flex: 1;
+  height: 100%;
   border: none;
-  flex-shrink: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 4px 0;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
 }
 
-.side-bubble:hover {
-  background: var(--bg-secondary);
-  transform: scale(1.15);
+.bottom-tab-item.active {
+  color: var(--accent);
 }
 
-.side-bubble.active {
+.bottom-tab-item.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
   background: var(--accent);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
-  transform: scale(1.1);
+}
+
+.bottom-tab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.bottom-tab-label {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
 }
 
 @media (prefers-color-scheme: dark) {
-  .side-bubbles {
-    background: rgba(30,30,32,0.85);
+  .bottom-tab-bar {
+    background: var(--bg);
+    border-top-color: var(--border);
   }
 }
 /* ---------- Booking Sheet ---------- */
@@ -1276,12 +1233,6 @@
 .feed-empty-text {
   font-size: 16px;
   color: var(--text-secondary);
-}
-
-/* ---------- Animations ---------- */
-@keyframes sunSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 @keyframes fadeIn {

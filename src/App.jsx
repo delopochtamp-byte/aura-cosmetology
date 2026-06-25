@@ -20,6 +20,7 @@ function CatalogLayout() {
   const [searchActive, setSearchActive] = useState(false);
   const [category, setCategory] = useState('all');
   const [partnerOpen, setPartnerOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('home');
 
   const handleBooking = useCallback((service) => {
     setBookingService(service);
@@ -27,10 +28,6 @@ function CatalogLayout() {
 
   const handleCloseBooking = useCallback(() => {
     setBookingService(null);
-  }, []);
-
-  const handleSearchToggle = useCallback(() => {
-    setSearchActive(prev => !prev);
   }, []);
 
   const handleSearchClose = useCallback(() => {
@@ -41,16 +38,27 @@ function CatalogLayout() {
     setCategory(cat);
   }, []);
 
-  const handleOpenPartner = useCallback(() => {
-    setPartnerOpen(true);
-  }, []);
-
   const handleClosePartner = useCallback(() => {
     setPartnerOpen(false);
   }, []);
 
-  const handleGoReferral = useCallback(() => {
-    navigate('/referral');
+  const handleTabChange = useCallback((tabKey) => {
+    setActiveTab(tabKey);
+    switch (tabKey) {
+      case 'home':
+        setCategory('all');
+        setSearchActive(false);
+        break;
+      case 'categories':
+        setSearchActive(true);
+        break;
+      case 'partner':
+        setPartnerOpen(true);
+        break;
+      case 'more':
+        navigate('/referral');
+        break;
+    }
   }, [navigate]);
 
   return (
@@ -59,9 +67,6 @@ function CatalogLayout() {
         lang={lang}
         onLangChange={setLang}
         t={t}
-        onSearchToggle={handleSearchToggle}
-        onPartner={handleOpenPartner}
-        onReferral={handleGoReferral}
       />
 
       <main className="main-content">
@@ -81,9 +86,8 @@ function CatalogLayout() {
       </main>
 
       <BottomTabBar
-        currentCategory={category}
-        onCategoryChange={handleCategoryChange}
-        getLocalized={getLocalized}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
       />
 
       <Footer t={t} />
