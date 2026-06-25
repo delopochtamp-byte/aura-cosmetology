@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../hooks/useTranslation';
 import { useLikes } from '../hooks/useLikes';
+import { SEED_POSTS } from '../data/blogSeed';
 import BlogEditor from './BlogEditor';
 import LikeButton from './LikeButton';
 
@@ -10,7 +11,12 @@ const STORAGE_KEY = 'aura_blog_posts';
 function loadPosts() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (raw) {
+      return JSON.parse(raw);
+    }
+    // Первый запуск — заполняем демо-постами
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_POSTS));
+    return SEED_POSTS;
   } catch {
     return [];
   }
