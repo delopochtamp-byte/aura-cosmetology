@@ -93,95 +93,100 @@ export default function SchedulePage({ t }) {
         <h1>{t('site.schedule_title') || 'Расписание'}</h1>
       </div>
 
-      {/* City Pills */}
-      <div className="city-pills">
-        {CITIES.map(city => (
-          <button
-            key={city.key}
-            className={`city-pill${selectedCity === city.key ? ' active' : ''}`}
-            onClick={() => setSelectedCity(city.key)}
-          >
-            {city.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Date Selector */}
-      <div className="date-selector">
-        <button
-          className="date-selector-btn"
-          onClick={() => setShowCalendar(!showCalendar)}
+      {/* Filters Row: город + дата на одной строке */}
+      <div className="schedule-filters-row">
+        {/* City Select */}
+        <select
+          className="schedule-city-select"
+          value={selectedCity}
+          onChange={(e) => setSelectedCity(e.target.value)}
         >
-          <span className="date-selector-icon">📅</span>
-          <span className="date-selector-text">
-            {selectedDate
-              ? `${formatDate(selectedDate)}.${now.getFullYear()}`
-              : (t('site.schedule_date') || 'Выберите дату')}
-          </span>
-          <span className={`date-selector-arrow${showCalendar ? ' open' : ''}`}>▾</span>
-        </button>
+          {CITIES.map(city => (
+            <option key={city.key} value={city.key}>
+              {city.label}
+            </option>
+          ))}
+        </select>
 
-        {showCalendar && (
-          <div className="date-calendar">
-            <div className="date-calendar-header">{monthLabel}</div>
-            <div className="date-calendar-grid">
-              {DAY_NAMES.map(d => (
-                <div key={d} className="date-calendar-day-header">{d}</div>
-              ))}
-              {monthDays.map((day, i) => (
-                <div
-                  key={i}
-                  className={`date-calendar-day${day === null ? ' empty' : ''}${day === selectedDate ? ' selected' : ''}`}
-                  onClick={() => {
-                    if (day !== null) {
-                      setSelectedDate(day);
-                      setShowCalendar(false);
-                    }
-                  }}
-                >
-                  {day || ''}
-                </div>
-              ))}
+        {/* Date Selector */}
+        <div className="date-selector">
+          <button
+            className="date-selector-btn"
+            onClick={() => setShowCalendar(!showCalendar)}
+          >
+            <span className="date-selector-icon">✈</span>
+            <span className="date-selector-text">
+              {selectedDate
+                ? `${formatDate(selectedDate)}.${now.getFullYear()}`
+                : (t('site.schedule_date') || 'Выберите дату')}
+            </span>
+            <span className={`date-selector-arrow${showCalendar ? ' open' : ''}`}>▾</span>
+          </button>
+
+          {showCalendar && (
+            <div className="date-calendar">
+              <div className="date-calendar-header">{monthLabel}</div>
+              <div className="date-calendar-grid">
+                {DAY_NAMES.map(d => (
+                  <div key={d} className="date-calendar-day-header">{d}</div>
+                ))}
+                {monthDays.map((day, i) => (
+                  <div
+                    key={i}
+                    className={`date-calendar-day${day === null ? ' empty' : ''}${day === selectedDate ? ' selected' : ''}`}
+                    onClick={() => {
+                      if (day !== null) {
+                        setSelectedDate(day);
+                        setShowCalendar(false);
+                      }
+                    }}
+                  >
+                    {day || ''}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* Schedule Board — табло авиаприлётов */}
-      <div className="schedule-board-wrapper">
-        <div className="schedule-board">
-          <div className="board-header">
-            <span className="board-col-time">{t('site.schedule_board_time') || 'ВРЕМЯ'}</span>
-            <span className="board-col-status">{t('site.schedule_board_status') || 'СТАТУС'}</span>
-            <span className="board-col-window">{t('site.schedule_board_window') || 'ОКНО'}</span>
-          </div>
-          <div className="board-body">
+      {/* Schedule Table — простая читаемая таблица */}
+      <div className="schedule-table-wrapper">
+        <table className="schedule-table">
+          <thead>
+            <tr>
+              <th className="table-col-time">{t('site.schedule_board_time') || 'ВРЕМЯ'}</th>
+              <th className="table-col-status">{t('site.schedule_board_status') || 'СТАТУС'}</th>
+              <th className="table-col-icon"></th>
+            </tr>
+          </thead>
+          <tbody>
             {slotStatuses.map(({ time, occupied }) => {
               const isSelected = selectedTime === time;
               return (
-                <div
+                <tr
                   key={time}
-                  className={`board-row${occupied ? ' occupied' : ' free'}${isSelected ? ' selected' : ''}`}
+                  className={`schedule-table-row${occupied ? ' occupied' : ' free'}${isSelected ? ' selected' : ''}`}
                   onClick={() => {
                     if (!occupied) {
                       setSelectedTime(isSelected ? null : time);
                     }
                   }}
                 >
-                  <span className="board-col-time">{time}</span>
-                  <span className="board-col-status">
+                  <td className="table-col-time">{time}</td>
+                  <td className="table-col-status">
                     {occupied
                       ? (t('site.schedule_occupied') || 'ЗАНЯТО')
                       : (t('site.schedule_free') || 'СВОБОДНО')}
-                  </span>
-                  <span className="board-col-window">
+                  </td>
+                  <td className="table-col-icon">
                     {occupied ? '✗' : '✓'}
-                  </span>
-                </div>
+                  </td>
+                </tr>
               );
             })}
-          </div>
-        </div>
+          </tbody>
+        </table>
       </div>
 
       {/* Book Button */}

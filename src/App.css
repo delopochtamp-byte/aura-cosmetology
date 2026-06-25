@@ -1334,58 +1334,19 @@
     background: var(--border-light);
   }
   
-  /* City Pills */
-  .city-pills {
+  /* Filters Row: город + дата на одной строке */
+  .schedule-filters-row {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     padding: 12px 16px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
     flex-shrink: 0;
+    align-items: flex-start;
   }
   
-  .city-pills::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .city-pill {
-    flex-shrink: 0;
-    padding: 8px 18px;
-    font-size: 14px;
-    font-weight: 500;
-    border: 1.5px solid var(--border-light);
-    border-radius: 20px;
-    background: var(--bg);
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  
-  .city-pill:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  
-  .city-pill.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-  
-  /* Date Selector */
-  .date-selector {
-    padding: 0 16px 12px;
-    flex-shrink: 0;
-  }
-  
-  .date-selector-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    padding: 12px 16px;
+  .schedule-city-select {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
     font-size: 15px;
     font-weight: 500;
     border: 1.5px solid var(--border-light);
@@ -1393,41 +1354,84 @@
     background: var(--bg-secondary);
     color: var(--text);
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px;
     transition: border-color 0.2s;
   }
   
-  .date-selector-btn:hover {
+  .schedule-city-select:hover {
     border-color: var(--accent);
   }
   
-  .date-selector-icon {
-    font-size: 18px;
+  .schedule-city-select:focus {
+    outline: none;
+    border-color: var(--accent);
   }
   
-  .date-selector-text {
-    flex: 1;
+  /* Date Selector (внутри filters-row) */
+  .schedule-filters-row .date-selector {
+    padding: 0;
+    flex-shrink: 0;
+    position: relative;
+  }
+  
+  .schedule-filters-row .date-selector-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    color: var(--text);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.2s;
+  }
+  
+  .schedule-filters-row .date-selector-btn:hover {
+    border-color: var(--accent);
+  }
+  
+  .schedule-filters-row .date-selector-icon {
+    font-size: 16px;
+  }
+  
+  .schedule-filters-row .date-selector-text {
+    flex: 0 1 auto;
     text-align: left;
   }
   
-  .date-selector-arrow {
-    font-size: 12px;
+  .schedule-filters-row .date-selector-arrow {
+    font-size: 10px;
     transition: transform 0.2s;
   }
   
-  .date-selector-arrow.open {
+  .schedule-filters-row .date-selector-arrow.open {
     transform: rotate(180deg);
   }
   
-  .date-calendar {
-    margin-top: 8px;
+  .schedule-filters-row .date-calendar {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 10;
+    min-width: 260px;
     padding: 12px;
     background: var(--bg);
     border: 1px solid var(--border-light);
     border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     animation: fadeIn 0.2s ease;
   }
   
-  .date-calendar-header {
+  .schedule-filters-row .date-calendar-header {
     text-align: center;
     font-size: 14px;
     font-weight: 600;
@@ -1435,21 +1439,21 @@
     margin-bottom: 8px;
   }
   
-  .date-calendar-grid {
+  .schedule-filters-row .date-calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
     text-align: center;
   }
   
-  .date-calendar-day-header {
+  .schedule-filters-row .date-calendar-day-header {
     font-size: 12px;
     font-weight: 600;
     color: var(--text-secondary);
     padding: 6px 0;
   }
   
-  .date-calendar-day {
+  .schedule-filters-row .date-calendar-day {
     padding: 8px 4px;
     font-size: 14px;
     border-radius: 8px;
@@ -1458,120 +1462,108 @@
     transition: background 0.2s;
   }
   
-  .date-calendar-day:hover {
+  .schedule-filters-row .date-calendar-day:hover {
     background: var(--bg-secondary);
   }
   
-  .date-calendar-day.selected {
+  .schedule-filters-row .date-calendar-day.selected {
     background: var(--accent);
     color: #fff;
     font-weight: 600;
   }
   
-  .date-calendar-day.empty {
+  .schedule-filters-row .date-calendar-day.empty {
     cursor: default;
   }
   
-  /* Schedule Board — табло */
-  .schedule-board-wrapper {
+  /* Schedule Table — простая читаемая таблица */
+  .schedule-table-wrapper {
     flex: 1;
     overflow-y: auto;
     padding: 0 16px 16px;
   }
   
-  .schedule-board {
+  .schedule-table {
     width: 100%;
+    border-collapse: collapse;
+    background: var(--bg);
     border-radius: 12px;
     overflow: hidden;
-    background: #1a1a2e;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
   
-  .board-header {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr 0.8fr;
-    gap: 0;
+  .schedule-table thead th {
     padding: 12px 16px;
-    background: #16213e;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  
-  .board-header span {
     font-size: 11px;
     font-weight: 700;
-    color: #8899aa;
+    color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 0.06em;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg-secondary);
   }
   
-  .board-body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .board-row {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr 0.8fr;
-    gap: 0;
-    padding: 10px 16px;
-    align-items: center;
-    cursor: pointer;
-    transition: background 0.15s;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  
-  .board-row:last-child {
-    border-bottom: none;
-  }
-  
-  .board-row:hover {
-    background: rgba(255,255,255,0.05);
-  }
-  
-  .board-row .board-col-time {
-    font-size: 15px;
-    font-weight: 600;
-    color: #e0e0e0;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  .board-row.free .board-col-status {
-    font-size: 12px;
-    font-weight: 700;
-    color: #4ade80;
-    font-family: 'Courier New', Courier, monospace;
-    letter-spacing: 0.05em;
-  }
-  
-  .board-row.occupied .board-col-status {
-    font-size: 12px;
-    font-weight: 700;
-    color: #f87171;
-    font-family: 'Courier New', Courier, monospace;
-    letter-spacing: 0.05em;
-  }
-  
-  .board-row .board-col-window {
-    font-size: 16px;
+  .schedule-table thead th.table-col-icon {
+    width: 36px;
     text-align: center;
   }
   
-  .board-row.free .board-col-window {
-    color: #4ade80;
+  .schedule-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s;
+    border-bottom: 1px solid var(--border-light);
   }
   
-  .board-row.occupied .board-col-window {
-    color: #f87171;
+  .schedule-table tbody tr:last-child {
+    border-bottom: none;
   }
   
-  .board-row.selected {
-    background: rgba(74, 222, 128, 0.15);
-    outline: 1px solid rgba(74, 222, 128, 0.4);
+  .schedule-table tbody tr:hover {
+    background: var(--bg-secondary);
   }
   
-  .board-row.selected .board-col-time {
-    color: #4ade80;
+  .schedule-table tbody tr.selected {
+    background: rgba(var(--accent-rgb, 219, 112, 147), 0.1);
+    outline: 1px solid var(--accent);
+    outline-offset: -1px;
+  }
+  
+  .schedule-table td {
+    padding: 12px 16px;
+    font-size: 15px;
+    color: var(--text);
+  }
+  
+  .table-col-time {
+    font-weight: 600;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  .table-col-status {
+    font-weight: 500;
+  }
+  
+  .schedule-table tbody tr.free .table-col-status {
+    color: #16a34a;
+  }
+  
+  .schedule-table tbody tr.occupied .table-col-status {
+    color: #dc2626;
+  }
+  
+  .table-col-icon {
+    text-align: center;
+    font-size: 16px;
+    width: 36px;
+  }
+  
+  .schedule-table tbody tr.free .table-col-icon {
+    color: #16a34a;
+  }
+  
+  .schedule-table tbody tr.occupied .table-col-icon {
+    color: #dc2626;
   }
   
   /* Book Button */
