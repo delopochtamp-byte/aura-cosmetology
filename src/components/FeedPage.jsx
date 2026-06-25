@@ -6,7 +6,8 @@ import SearchBar from './SearchBar';
 export default function FeedPage({
   getLocalized, t, isLiked, getCount,
   onToggleLike, onBooking, lang,
-  searchActive, onSearchClose, category
+  searchActive, onSearchClose, category,
+  showFavorites
 }) {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -16,6 +17,11 @@ export default function FeedPage({
     // Фильтр по категории
     if (category && category !== 'all') {
       result = result.filter(s => s.category === category);
+    }
+
+    // Фильтр по избранному
+    if (showFavorites) {
+      result = result.filter(s => isLiked(s.id));
     }
 
     // Фильтр по поиску
@@ -28,7 +34,7 @@ export default function FeedPage({
     }
 
     return result;
-  }, [searchQuery, lang, category]);
+  }, [searchQuery, lang, category, showFavorites, isLiked]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);

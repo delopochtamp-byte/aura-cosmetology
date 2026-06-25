@@ -6,7 +6,8 @@ import Header from './components/Header';
 import FeedPage from './components/FeedPage';
 import BottomTabBar from './components/BottomTabBar';
 import BookingModal from './components/BookingModal';
-import PartnerModal from './components/PartnerModal';
+import ScheduleModal from './components/ScheduleModal';
+import BlogPage from './components/BlogPage';
 import ReferralPage from './components/ReferralPage';
 import Footer from './components/Footer';
 import servicesData from './data/services.json';
@@ -19,8 +20,9 @@ function CatalogLayout() {
   const [bookingService, setBookingService] = useState(null);
   const [searchActive, setSearchActive] = useState(false);
   const [category, setCategory] = useState('all');
-  const [partnerOpen, setPartnerOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
 
   const handleBooking = useCallback((service) => {
     setBookingService(service);
@@ -38,8 +40,8 @@ function CatalogLayout() {
     setCategory(cat);
   }, []);
 
-  const handleClosePartner = useCallback(() => {
-    setPartnerOpen(false);
+  const handleCloseSchedule = useCallback(() => {
+    setScheduleOpen(false);
   }, []);
 
   const handleTabChange = useCallback((tabKey) => {
@@ -48,15 +50,21 @@ function CatalogLayout() {
       case 'home':
         setCategory('all');
         setSearchActive(false);
+        setShowFavorites(false);
         break;
-      case 'categories':
-        setSearchActive(true);
+      case 'phone':
+        window.location.href = 'tel:+79883877957';
         break;
-      case 'partner':
-        setPartnerOpen(true);
+      case 'favorites':
+        setShowFavorites(prev => !prev);
+        setCategory('all');
+        setSearchActive(false);
         break;
-      case 'more':
-        navigate('/referral');
+      case 'schedule':
+        setScheduleOpen(true);
+        break;
+      case 'blog':
+        navigate('/blog');
         break;
     }
   }, [navigate]);
@@ -82,6 +90,7 @@ function CatalogLayout() {
           searchActive={searchActive}
           onSearchClose={handleSearchClose}
           category={category}
+          showFavorites={showFavorites}
         />
       </main>
 
@@ -101,10 +110,10 @@ function CatalogLayout() {
         />
       )}
 
-      {partnerOpen && (
-        <PartnerModal
+      {scheduleOpen && (
+        <ScheduleModal
           t={t}
-          onClose={handleClosePartner}
+          onClose={handleCloseSchedule}
         />
       )}
     </>
@@ -119,6 +128,7 @@ function App() {
       <Routes>
         <Route path="/" element={<CatalogLayout />} />
         <Route path="/referral" element={<ReferralPage t={t} />} />
+        <Route path="/blog" element={<BlogPage />} />
       </Routes>
     </div>
   );

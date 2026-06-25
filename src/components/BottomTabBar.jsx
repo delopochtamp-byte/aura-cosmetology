@@ -1,35 +1,17 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPhone,
+  faHeart as faHeartSolid,
+  faCalendarAlt,
+  faNewspaper,
+} from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from '../hooks/useTranslation';
 
 const TABS = [
-  { key: 'home', icon: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-  )},
-  { key: 'categories', icon: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="7" height="7"/>
-      <rect x="14" y="3" width="7" height="7"/>
-      <rect x="14" y="14" width="7" height="7"/>
-      <rect x="3" y="14" width="7" height="7"/>
-    </svg>
-  )},
-  { key: 'partner', icon: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-      <circle cx="9" cy="7" r="4"/>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-    </svg>
-  )},
-  { key: 'more', icon: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="1"/>
-      <circle cx="19" cy="12" r="1"/>
-      <circle cx="5" cy="12" r="1"/>
-    </svg>
-  )}
+  { key: 'phone', icon: faPhone, label: 'site.bottom_tab_phone' },
+  { key: 'favorites', icon: faHeartSolid, label: 'site.bottom_tab_favorites' },
+  { key: 'schedule', icon: faCalendarAlt, label: 'site.bottom_tab_schedule' },
+  { key: 'blog', icon: faNewspaper, label: 'site.bottom_tab_blog' },
 ];
 
 export default function BottomTabBar({ activeTab, onTabChange }) {
@@ -37,15 +19,17 @@ export default function BottomTabBar({ activeTab, onTabChange }) {
 
   return (
     <nav className="bottom-tab-bar">
-      {TABS.map(({ key, icon }) => (
+      {TABS.map(({ key, icon, label }) => (
         <button
           key={key}
           className={`bottom-tab-item${activeTab === key ? ' active' : ''}`}
           onClick={() => onTabChange(key)}
-          aria-label={t(`site.bottom_tab_${key}`)}
+          aria-label={t(label)}
         >
-          <span className="bottom-tab-icon">{icon}</span>
-          <span className="bottom-tab-label">{t(`site.bottom_tab_${key}`)}</span>
+          <span className="bottom-tab-icon">
+            <FontAwesomeIcon icon={icon} />
+          </span>
+          <span className="bottom-tab-label">{t(label)}</span>
         </button>
       ))}
     </nav>
