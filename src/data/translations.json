@@ -1140,6 +1140,72 @@
       "ar": "اختر المدينة والتاريخ والوقت للحجز",
       "zh": "选择城市、日期和时间进行预约"
     },
+    "schedule_board_time": {
+      "ru": "ВРЕМЯ",
+      "uk": "ЧАС",
+      "en": "TIME",
+      "de": "ZEIT",
+      "fr": "HEURE",
+      "es": "HORA",
+      "tr": "SAAT",
+      "ar": "الوقت",
+      "zh": "时间"
+    },
+    "schedule_board_status": {
+      "ru": "СТАТУС",
+      "uk": "СТАТУС",
+      "en": "STATUS",
+      "de": "STATUS",
+      "fr": "STATUT",
+      "es": "ESTADO",
+      "tr": "DURUM",
+      "ar": "الحالة",
+      "zh": "状态"
+    },
+    "schedule_board_window": {
+      "ru": "ОКНО",
+      "uk": "ВІКНО",
+      "en": "SLOT",
+      "de": "FENSTER",
+      "fr": "CRÉNEAU",
+      "es": "VENTANA",
+      "tr": "PENCERE",
+      "ar": "النافذة",
+      "zh": "窗口"
+    },
+    "schedule_free": {
+      "ru": "СВОБОДНО",
+      "uk": "ВІЛЬНО",
+      "en": "FREE",
+      "de": "FREI",
+      "fr": "LIBRE",
+      "es": "LIBRE",
+      "tr": "BOŞ",
+      "ar": "متاح",
+      "zh": "空闲"
+    },
+    "schedule_occupied": {
+      "ru": "ЗАНЯТО",
+      "uk": "ЗАЙНЯТО",
+      "en": "OCCUPIED",
+      "de": "BESETZT",
+      "fr": "OCCUPÉ",
+      "es": "OCUPADO",
+      "tr": "DOLU",
+      "ar": "مشغول",
+      "zh": "已占用"
+    },
+    "schedule_book_btn": {
+      "ru": "Записаться на {time}",
+      "uk": "Записатися на {time}",
+      "en": "Book at {time}",
+      "de": "Buchen um {time}",
+      "fr": "Réserver à {time}",
+      "es": "Reservar a las {time}",
+      "tr": "{time} için randevu al",
+      "ar": "احجز في {time}",
+      "zh": "预约 {time}"
+    },
     "blog_title": {
       "ru": "Блог",
       "uk": "Блог",

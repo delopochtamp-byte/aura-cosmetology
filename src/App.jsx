@@ -1,14 +1,14 @@
 import { useState, useCallback } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from './hooks/useTranslation';
 import { useLikes } from './hooks/useLikes';
 import Header from './components/Header';
 import FeedPage from './components/FeedPage';
 import BottomTabBar from './components/BottomTabBar';
 import BookingModal from './components/BookingModal';
-import ScheduleModal from './components/ScheduleModal';
 import BlogPage from './components/BlogPage';
 import ReferralPage from './components/ReferralPage';
+import SchedulePage from './components/SchedulePage';
 import Footer from './components/Footer';
 import servicesData from './data/services.json';
 import './App.css';
@@ -20,9 +20,7 @@ function CatalogLayout() {
   const [bookingService, setBookingService] = useState(null);
   const [searchActive, setSearchActive] = useState(false);
   const [category, setCategory] = useState('all');
-  const [activeTab, setActiveTab] = useState('home');
   const [showFavorites, setShowFavorites] = useState(false);
-  const [scheduleOpen, setScheduleOpen] = useState(false);
 
   const handleBooking = useCallback((service) => {
     setBookingService(service);
@@ -39,35 +37,6 @@ function CatalogLayout() {
   const handleCategoryChange = useCallback((cat) => {
     setCategory(cat);
   }, []);
-
-  const handleCloseSchedule = useCallback(() => {
-    setScheduleOpen(false);
-  }, []);
-
-  const handleTabChange = useCallback((tabKey) => {
-    setActiveTab(tabKey);
-    switch (tabKey) {
-      case 'home':
-        setCategory('all');
-        setSearchActive(false);
-        setShowFavorites(false);
-        break;
-      case 'phone':
-        window.location.href = 'tel:+79883877957';
-        break;
-      case 'favorites':
-        setShowFavorites(prev => !prev);
-        setCategory('all');
-        setSearchActive(false);
-        break;
-      case 'schedule':
-        setScheduleOpen(true);
-        break;
-      case 'blog':
-        navigate('/blog');
-        break;
-    }
-  }, [navigate]);
 
   return (
     <>
@@ -94,11 +63,6 @@ function CatalogLayout() {
         />
       </main>
 
-      <BottomTabBar
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
-      />
-
       <Footer t={t} />
 
       {bookingService && (
@@ -109,19 +73,46 @@ function CatalogLayout() {
           onClose={handleCloseBooking}
         />
       )}
-
-      {scheduleOpen && (
-        <ScheduleModal
-          t={t}
-          onClose={handleCloseSchedule}
-        />
-      )}
     </>
   );
 }
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
+  const { isLiked, getCount, toggleLike } = useLikes();
+  const [bookingService, setBookingService] = useState(null);
+
+  const getActiveTab = (pathname) => {
+    if (pathname === '/') return 'home';
+    if (pathname === '/blog') return 'blog';
+    if (pathname === '/schedule') return 'schedule';
+    return 'home';
+  };
+
+  const handleTabChange = useCallback((tabKey) => {
+    switch (tabKey) {
+      case 'home':
+        navigate('/');
+        break;
+      case 'phone':
+        window.location.href = 'tel:+79883877957';
+        break;
+      case 'favorites':
+        // На главной показываем избранное, на других — переходим на главную
+        if (location.pathname !== '/') {
+          navigate('/');
+        }
+        break;
+      case 'schedule':
+        navigate('/schedule');
+        break;
+      case 'blog':
+        navigate('/blog');
+        break;
+    }
+  }, [navigate, location.pathname]);
 
   return (
     <div className="app">
@@ -129,7 +120,13 @@ function App() {
         <Route path="/" element={<CatalogLayout />} />
         <Route path="/referral" element={<ReferralPage t={t} />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/schedule" element={<SchedulePage t={t} />} />
       </Routes>
+
+      <BottomTabBar
+        activeTab={getActiveTab(location.pathname)}
+        onTabChange={handleTabChange}
+      />
     </div>
   );
 }
