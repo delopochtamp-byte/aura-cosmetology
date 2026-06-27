@@ -13,14 +13,14 @@ import Footer from './components/Footer';
 import servicesData from './data/services.json';
 import './App.css';
 
-function CatalogLayout() {
+function CatalogLayout({ showFavorites, onToggleFavorites }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { lang, setLang, t, getLocalized } = useTranslation();
   const { isLiked, getCount, toggleLike } = useLikes();
   const [bookingService, setBookingService] = useState(null);
   const [searchActive, setSearchActive] = useState(false);
   const [category, setCategory] = useState('all');
-  const [showFavorites, setShowFavorites] = useState(false);
 
   const handleBooking = useCallback((service) => {
     setBookingService(service);
@@ -44,6 +44,7 @@ function CatalogLayout() {
         lang={lang}
         onLangChange={setLang}
         t={t}
+        currentPath={location.pathname}
       />
 
       <main className="main-content">
@@ -83,6 +84,7 @@ function App() {
   const { t } = useTranslation();
   const { isLiked, getCount, toggleLike } = useLikes();
   const [bookingService, setBookingService] = useState(null);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const getActiveTab = (pathname) => {
     if (pathname === '/') return 'home';
@@ -100,7 +102,7 @@ function App() {
         window.location.href = 'tel:+79883877957';
         break;
       case 'favorites':
-        // На главной показываем избранное, на других — переходим на главную
+        setShowFavorites(prev => !prev);
         if (location.pathname !== '/') {
           navigate('/');
         }
@@ -117,15 +119,16 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<CatalogLayout />} />
+        <Route path="/" element={<CatalogLayout showFavorites={showFavorites} />} />
         <Route path="/referral" element={<ReferralPage t={t} />} />
-        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog" element={<BlogPage showFavorites={showFavorites} />} />
         <Route path="/schedule" element={<SchedulePage t={t} />} />
       </Routes>
 
       <BottomTabBar
         activeTab={getActiveTab(location.pathname)}
         onTabChange={handleTabChange}
+        showFavorites={showFavorites}
       />
     </div>
   );

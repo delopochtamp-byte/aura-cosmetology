@@ -34,72 +34,38 @@
 }
 
 .header-left {
-  flex: 0 0 80px;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   padding-left: 4px;
+  min-width: 0;
 }
 
-.header-logo-img {
-  height: 32px;
-  width: auto;
-  object-fit: contain;
-  cursor: pointer;
-}
-
-/* ---------- Logo Dropdown ---------- */
-.logo-dropdown {
-  position: relative;
+/* ---------- Header Nav Toggle (Блог / Каталог) ---------- */
+.header-nav-toggle {
   display: inline-flex;
-}
-
-.logo-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  min-width: 200px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-  z-index: 200;
-  overflow: hidden;
-  animation: fadeIn 0.15s ease-out;
-}
-
-.logo-dropdown-item {
-  display: flex;
   align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 12px 16px;
-  border: none;
-  background: transparent;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
-  text-align: left;
-}
-
-.logo-dropdown-item:hover {
-  background: var(--hover);
-}
-
-.logo-dropdown-icon {
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.logo-dropdown-label {
+  transition: all 0.2s ease;
   white-space: nowrap;
+  letter-spacing: -0.2px;
 }
 
-.logo-dropdown-divider {
-  height: 1px;
-  background: var(--border);
-  margin: 0 12px;
+.header-nav-toggle:hover {
+  background: var(--hover);
+  border-color: var(--text-secondary);
+}
+
+.header-nav-toggle:active {
+  transform: scale(0.96);
 }
 
 .header-center {
@@ -110,11 +76,15 @@
 }
 
 .header-logo {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.3px;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .header-right {
@@ -620,6 +590,14 @@
 
 .bottom-tab-item.active {
   color: var(--accent);
+}
+
+.bottom-tab-item.favorites-active {
+  color: #ff3b30;
+}
+
+.bottom-tab-item.favorites-active .bottom-tab-icon {
+  animation: likePop 0.3s ease;
 }
 
 .bottom-tab-icon {

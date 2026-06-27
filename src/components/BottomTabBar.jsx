@@ -5,6 +5,7 @@ import {
   faCalendarAlt,
   faNewspaper,
 } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { useTranslation } from '../hooks/useTranslation';
 
 const TABS = [
@@ -14,24 +15,32 @@ const TABS = [
   { key: 'blog', icon: faNewspaper, label: 'site.bottom_tab_blog' },
 ];
 
-export default function BottomTabBar({ activeTab, onTabChange }) {
+export default function BottomTabBar({ activeTab, onTabChange, showFavorites }) {
   const { t } = useTranslation();
 
   return (
     <nav className="bottom-tab-bar">
-      {TABS.map(({ key, icon, label }) => (
-        <button
-          key={key}
-          className={`bottom-tab-item${activeTab === key ? ' active' : ''}`}
-          onClick={() => onTabChange(key)}
-          aria-label={t(label)}
-        >
-          <span className="bottom-tab-icon">
-            <FontAwesomeIcon icon={icon} />
-          </span>
-          <span className="bottom-tab-label">{t(label)}</span>
-        </button>
-      ))}
+      {TABS.map(({ key, icon, label }) => {
+        // Для кнопки "избранное" переключаем иконку в зависимости от showFavorites
+        const isFavActive = key === 'favorites' && showFavorites;
+        const displayIcon = key === 'favorites'
+          ? (showFavorites ? faHeartSolid : faHeartRegular)
+          : icon;
+
+        return (
+          <button
+            key={key}
+            className={`bottom-tab-item${activeTab === key ? ' active' : ''}${isFavActive ? ' favorites-active' : ''}`}
+            onClick={() => onTabChange(key)}
+            aria-label={t(label)}
+          >
+            <span className="bottom-tab-icon">
+              <FontAwesomeIcon icon={displayIcon} />
+            </span>
+            <span className="bottom-tab-label">{t(label)}</span>
+          </button>
+        );
+      })}
     </nav>
   );
 }

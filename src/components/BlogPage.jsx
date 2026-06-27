@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from '../hooks/useTranslation';
 import { useLikes } from '../hooks/useLikes';
 import { SEED_POSTS } from '../data/blogSeed';
@@ -26,8 +25,7 @@ function savePosts(posts) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
 }
 
-export default function BlogPage() {
-  const navigate = useNavigate();
+export default function BlogPage({ showFavorites }) {
   const { t } = useTranslation();
   const { isLiked, getCount, toggleLike } = useLikes();
   const [posts, setPosts] = useState([]);
@@ -51,27 +49,30 @@ export default function BlogPage() {
   const isPostLiked = (postId) => isLiked(`blog_${postId}`);
   const getPostCount = (postId) => getCount(`blog_${postId}`, 0);
 
+  // Фильтрация по избранному
+  const filteredPosts = useMemo(() => {
+    if (!showFavorites) return posts;
+    return posts.filter(post => isPostLiked(post.id));
+  }, [posts, showFavorites, isPostLiked]);
+
   return (
     <div className="blog-page">
-      {/* Header */}
+      {/* Header — без кнопки назад, переключатель в Header.jsx */}
       <div className="blog-header">
-        <button className="blog-back-btn" onClick={() => navigate('/')}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M12 4L6 10L12 16" />
-          </svg>
-        </button>
         <h1>{t('site.blog_title') || 'Блог'}</h1>
       </div>
 
       {/* Лента постов — карточки как в каталоге */}
       <div className="feed-scroll-container hide-scrollbar">
-        {posts.length === 0 ? (
+        {filteredPosts.length === 0 ? (
           <div className="blog-empty">
             <div className="blog-empty-icon">📝</div>
-            <p>{t('site.blog_empty') || 'В блоге пока нет постов'}</p>
+            <p>{showFavorites
+              ? (t('site.favorites_empty') || 'В избранном нет постов')
+              : (t('site.blog_empty') || 'В блоге пока нет постов')}</p>
           </div>
         ) : (
-          posts.map(post => (
+          filteredPosts.map(post => (
             <BlogCard
               key={post.id}
               post={post}
