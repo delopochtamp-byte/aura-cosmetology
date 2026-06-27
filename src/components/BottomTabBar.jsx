@@ -4,6 +4,7 @@ import {
   faHeart as faHeartSolid,
   faCalendarAlt,
   faNewspaper,
+  faThLarge,
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { useTranslation } from '../hooks/useTranslation';
@@ -27,17 +28,22 @@ export default function BottomTabBar({ activeTab, onTabChange, showFavorites }) 
           ? (showFavorites ? faHeartSolid : faHeartRegular)
           : icon;
 
+        // Для кнопки "blog" — переключаем иконку и текст в зависимости от activeTab
+        const isBlogActive = key === 'blog' && activeTab === 'blog';
+        const blogIcon = isBlogActive ? faThLarge : faNewspaper;
+        const blogLabel = isBlogActive ? 'site.bottom_tab_home' : 'site.bottom_tab_blog';
+
         return (
           <button
             key={key}
             className={`bottom-tab-item${activeTab === key ? ' active' : ''}${isFavActive ? ' favorites-active' : ''}`}
             onClick={() => onTabChange(key)}
-            aria-label={t(label)}
+            aria-label={t(key === 'blog' ? blogLabel : label)}
           >
             <span className="bottom-tab-icon">
-              <FontAwesomeIcon icon={displayIcon} />
+              <FontAwesomeIcon icon={key === 'blog' ? blogIcon : displayIcon} />
             </span>
-            <span className="bottom-tab-label">{t(label)}</span>
+            <span className="bottom-tab-label">{t(key === 'blog' ? blogLabel : label)}</span>
           </button>
         );
       })}

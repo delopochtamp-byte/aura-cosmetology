@@ -44,7 +44,6 @@ function CatalogLayout({ showFavorites, onToggleFavorites }) {
         lang={lang}
         onLangChange={setLang}
         t={t}
-        currentPath={location.pathname}
       />
 
       <main className="main-content">
@@ -103,15 +102,12 @@ function App() {
         break;
       case 'favorites':
         setShowFavorites(prev => !prev);
-        if (location.pathname !== '/') {
-          navigate('/');
-        }
         break;
       case 'schedule':
         navigate('/schedule');
         break;
       case 'blog':
-        navigate('/blog');
+        navigate(location.pathname === '/blog' ? '/' : '/blog');
         break;
     }
   }, [navigate, location.pathname]);

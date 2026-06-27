@@ -41,33 +41,6 @@
   min-width: 0;
 }
 
-/* ---------- Header Nav Toggle (Блог / Каталог) ---------- */
-.header-nav-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  letter-spacing: -0.2px;
-}
-
-.header-nav-toggle:hover {
-  background: var(--hover);
-  border-color: var(--text-secondary);
-}
-
-.header-nav-toggle:active {
-  transform: scale(0.96);
-}
-
 .header-center {
   flex: 1;
   display: flex;
@@ -1271,13 +1244,12 @@
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
-    max-height: 100dvh;
     background: var(--bg);
     padding-bottom: 88px; /* место для BottomTabBar */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .schedule-page-header {
     position: sticky;
     top: 0;
@@ -1290,7 +1262,7 @@
     border-bottom: 1px solid var(--border-light);
     background: var(--bg);
   }
-  
+
   .schedule-page-header h1 {
     font-size: 20px;
     font-weight: 700;
@@ -1298,8 +1270,8 @@
     color: var(--text);
     flex: 1;
   }
-  
-  .schedule-page-theme-toggle {
+
+  .schedule-page-back {
     width: 36px;
     height: 36px;
     display: flex;
@@ -1311,256 +1283,203 @@
     color: var(--text);
     font-size: 18px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.3s;
+    transition: background 0.2s;
     flex-shrink: 0;
   }
-  
-  .schedule-page-theme-toggle:hover {
+
+  .schedule-page-back:hover {
     background: var(--border-light);
   }
-  
-  .schedule-page-theme-toggle:active {
-    transform: scale(0.9);
+
+  /* Sections */
+  .schedule-section {
+    padding: 12px 16px 4px;
   }
-  
-  /* Filters Row: город + дата на одной строке */
-  .schedule-filters-row {
-    position: sticky;
-    top: 60px;
-    z-index: 9;
-    display: flex;
-    gap: 10px;
-    padding: 12px 16px;
-    flex-shrink: 0;
-    align-items: flex-start;
-    background: var(--bg);
-  }
-  
-  .schedule-city-select {
-    flex: 1;
-    min-width: 0;
-    padding: 12px 14px;
-    font-size: 15px;
-    font-weight: 500;
-    border: 1.5px solid var(--border-light);
-    border-radius: 12px;
-    background: var(--bg-secondary);
-    color: var(--text);
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    background-size: 12px;
-    transition: border-color 0.2s;
-  }
-  
-  .schedule-city-select:hover {
-    border-color: var(--accent);
-  }
-  
-  .schedule-city-select:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-  
-  /* Date Selector (внутри filters-row) */
-  .schedule-filters-row .date-selector {
-    padding: 0;
-    flex-shrink: 0;
-    position: relative;
-  }
-  
-  .schedule-filters-row .date-selector-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 14px;
-    font-size: 14px;
-    font-weight: 500;
-    border: 1.5px solid var(--border-light);
-    border-radius: 12px;
-    background: var(--bg-secondary);
-    color: var(--text);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: border-color 0.2s;
-  }
-  
-  .schedule-filters-row .date-selector-btn:hover {
-    border-color: var(--accent);
-  }
-  
-  .schedule-filters-row .date-selector-icon {
-    font-size: 16px;
-  }
-  
-  .schedule-filters-row .date-selector-text {
-    flex: 0 1 auto;
-    text-align: left;
-  }
-  
-  .schedule-filters-row .date-selector-arrow {
-    font-size: 10px;
-    transition: transform 0.2s;
-  }
-  
-  .schedule-filters-row .date-selector-arrow.open {
-    transform: rotate(180deg);
-  }
-  
-  .schedule-filters-row .date-calendar {
-    position: absolute;
-    top: calc(100% + 4px);
-    right: 0;
-    z-index: 10;
-    min-width: 260px;
-    padding: 12px;
-    background: var(--bg);
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    animation: fadeIn 0.2s ease;
-  }
-  
-  .schedule-filters-row .date-calendar-header {
-    text-align: center;
-    font-size: 14px;
+
+  .schedule-section-label {
+    display: block;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-  
-  .schedule-filters-row .date-calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    text-align: center;
-  }
-  
-  .schedule-filters-row .date-calendar-day-header {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    padding: 6px 0;
-  }
-  
-  .schedule-filters-row .date-calendar-day {
-    padding: 8px 4px;
-    font-size: 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    color: var(--text);
-    transition: background 0.2s;
-  }
-  
-  .schedule-filters-row .date-calendar-day:hover {
-    background: var(--bg-secondary);
-  }
-  
-  .schedule-filters-row .date-calendar-day.selected {
-    background: var(--accent);
-    color: #fff;
-    font-weight: 600;
-  }
-  
-  .schedule-filters-row .date-calendar-day.empty {
-    cursor: default;
-  }
-  
-  /* Schedule Table — простая читаемая таблица */
-  .schedule-table-wrapper {
-    padding: 0 16px 16px;
-    flex-shrink: 0;
-  }
-  
-  .schedule-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--bg);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }
-  
-  .schedule-table thead th {
-    padding: 12px 16px;
-    font-size: 11px;
-    font-weight: 700;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    text-align: left;
-    border-bottom: 1px solid var(--border-light);
-    background: var(--bg-secondary);
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
   }
-  
-  .schedule-table thead th.table-col-icon {
-    width: 36px;
-    text-align: center;
+
+  /* City Chips */
+  .schedule-chips-row {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
   }
-  
-  .schedule-table tbody tr {
+
+  .schedule-chips-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .schedule-chip {
+    flex-shrink: 0;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1.5px solid var(--border-light);
+    border-radius: 20px;
+    background: var(--bg);
+    color: var(--text-primary);
     cursor: pointer;
-    transition: background 0.15s;
-    border-bottom: 1px solid var(--border-light);
+    transition: all 0.2s;
+    white-space: nowrap;
   }
-  
-  .schedule-table tbody tr:last-child {
-    border-bottom: none;
-  }
-  
-  .schedule-table tbody tr:hover {
+
+  .schedule-chip:hover {
+    border-color: var(--accent);
     background: var(--bg-secondary);
   }
-  
-  .schedule-table tbody tr.selected {
-    background: rgba(var(--accent-rgb, 219, 112, 147), 0.1);
-    outline: 1px solid var(--accent);
-    outline-offset: -1px;
+
+  .schedule-chip.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
   }
-  
-  .schedule-table td {
-    padding: 12px 16px;
-    font-size: 15px;
-    color: var(--text);
+
+  /* Day Chips (горизонтальный скролл) */
+  .schedule-days-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
   }
-  
-  .table-col-time {
+
+  .schedule-days-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .schedule-day-chip {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 14px;
+    min-width: 60px;
+    border: 1.5px solid var(--border-light);
+    border-radius: 14px;
+    background: var(--bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .schedule-day-chip:hover {
+    border-color: var(--accent);
+    background: var(--bg-secondary);
+  }
+
+  .schedule-day-chip.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .schedule-day-chip-name {
+    font-size: 11px;
     font-weight: 600;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .schedule-day-chip-number {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .schedule-day-chip-month {
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+
+  /* Slots Grid — 2 колонки */
+  .schedule-slots-section {
+    flex: 1;
+    padding-bottom: 16px;
+  }
+
+  .schedule-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .schedule-slot-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 12px;
+    border: 1.5px solid var(--border-light);
+    border-radius: 14px;
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .schedule-slot-card:not(.occupied):hover {
+    border-color: var(--accent);
+    background: var(--bg-secondary);
+  }
+
+  .schedule-slot-card.free {
+    color: var(--text-primary);
+  }
+
+  .schedule-slot-card.occupied {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: var(--bg-secondary);
+  }
+
+  .schedule-slot-card.selected {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .schedule-slot-card.selected .schedule-slot-status {
+    color: rgba(255,255,255,0.8);
+  }
+
+  .schedule-slot-time {
+    font-size: 16px;
+    font-weight: 700;
     font-family: 'Courier New', Courier, monospace;
   }
-  
-  .table-col-status {
-    font-weight: 500;
+
+  .schedule-slot-status {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--text-secondary);
   }
-  
-  .schedule-table tbody tr.free .table-col-status {
+
+  .schedule-slot-card.free .schedule-slot-status {
     color: #16a34a;
   }
-  
-  .schedule-table tbody tr.occupied .table-col-status {
+
+  .schedule-slot-card.occupied .schedule-slot-status {
     color: #dc2626;
   }
-  
-  .table-col-icon {
-    text-align: center;
-    font-size: 16px;
-    width: 36px;
-  }
-  
-  .schedule-table tbody tr.free .table-col-icon {
-    color: #16a34a;
-  }
-  
-  .schedule-table tbody tr.occupied .table-col-icon {
-    color: #dc2626;
-  }
-  
+
   /* Book Button */
   .schedule-page-book-btn {
-    margin: 0 16px 16px;
+    margin: 8px 16px 16px;
     padding: 14px;
     font-size: 16px;
     font-weight: 600;
@@ -1572,16 +1491,16 @@
     transition: opacity 0.2s;
     flex-shrink: 0;
   }
-  
+
   .schedule-page-book-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
   }
-  
+
   .schedule-page-book-btn:not(:disabled):hover {
     opacity: 0.85;
   }
-  
+
   /* ========== BlogPage ========== */
   .blog-page {
     display: flex;

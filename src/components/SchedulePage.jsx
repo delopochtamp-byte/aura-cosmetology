@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const CITIES = [
@@ -14,23 +14,18 @@ const TIME_SLOTS = [
   '20:00', '21:00', '22:00', '23:00',
 ];
 
-const DAY_NAMES = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-const MONTH_NAMES = [
-  'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-  'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
+const DAY_NAMES_SHORT = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+const MONTH_NAMES_GENITIVE = [
+  'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+  'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',
 ];
 
-function getMonthDays() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDay = new Date(year, month, 1).getDay();
+function getNextDays(count = 14) {
   const days = [];
-  for (let i = 0; i < firstDay; i++) {
-    days.push(null);
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
+  const now = new Date();
+  for (let i = 0; i < count; i++) {
+    const d = new Date(now);
+    d.setDate(now.getDate() + i);
     days.push(d);
   }
   return days;
@@ -52,38 +47,21 @@ export default function SchedulePage({ t }) {
   const [selectedCity, setSelectedCity] = useState(CITIES[0].key);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [showCalendar, setShowCalendar] = useState(false);
 
-  // Состояние темы: читаем текущую из <html data-theme>
-  const getInitialTheme = () => {
-    if (typeof document !== 'undefined') {
-      return document.documentElement.getAttribute('data-theme') || 'light';
-    }
-    return 'light';
-  };
-  const [theme, setTheme] = useState(getInitialTheme);
-
-  const toggleTheme = () => {
-    const next = theme === 'light' ? 'dark' : 'light';
-    setTheme(next);
-    document.documentElement.setAttribute('data-theme', next);
-  };
-
+  const days = useMemo(() => getNextDays(14), []);
   const now = new Date();
-  const monthDays = getMonthDays();
-  const monthLabel = `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
 
   // Детерминированный статус для каждого слота на основе города + даты + времени
   const slotStatuses = useMemo(() => {
     const dateStr = selectedDate
-      ? `${selectedDate}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()}`
+      ? `${selectedDate.getDate()}.${String(selectedDate.getMonth() + 1).padStart(2, '0')}.${selectedDate.getFullYear()}`
       : 'today';
     return TIME_SLOTS.map(time => {
       const seed = hashString(`${selectedCity}_${dateStr}_${time}`);
       const isOccupied = seed % 3 === 0; // ~33% занято
       return { time, occupied: isOccupied };
     });
-  }, [selectedCity, selectedDate, now]);
+  }, [selectedCity, selectedDate]);
 
   const handleBook = () => {
     if (selectedCity && selectedDate && selectedTime) {
@@ -91,136 +69,107 @@ export default function SchedulePage({ t }) {
     }
   };
 
-  const formatDate = (day) => {
-    if (!day) return '';
-    return `${String(day).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const formatDayLabel = (date) => {
+    const day = date.getDate();
+    const month = MONTH_NAMES_GENITIVE[date.getMonth()];
+    const dayName = DAY_NAMES_SHORT[date.getDay()];
+    return { day, month, dayName };
+  };
+
+  const isToday = (date) => {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear();
+  };
+
+  const isSameDay = (a, b) => {
+    if (!a || !b) return false;
+    return a.getDate() === b.getDate() &&
+      a.getMonth() === b.getMonth() &&
+      a.getFullYear() === b.getFullYear();
   };
 
   return (
     <div className="schedule-page">
-      <div className="schedule-sticky-top">
-        {/* Header */}
-        <div className="schedule-page-header">
-          <button className="schedule-page-theme-toggle" onClick={toggleTheme} title="Сменить тему">
-            {theme === 'light' ? (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            ) : (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            )}
-          </button>
-          <h1>{t('site.schedule_title') || 'Расписание'}</h1>
-        </div>
+      {/* Header */}
+      <div className="schedule-page-header">
+        <button className="schedule-page-back" onClick={() => navigate('/')}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <h1>{t('site.schedule_title') || 'Расписание'}</h1>
+      </div>
 
-        {/* Filters Row: город + дата на одной строке */}
-        <div className="schedule-filters-row">
-          {/* City Select */}
-          <select
-            className="schedule-city-select"
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-          >
-            {CITIES.map(city => (
-              <option key={city.key} value={city.key}>
-                {city.label}
-              </option>
-            ))}
-          </select>
-
-          {/* Date Selector */}
-          <div className="date-selector">
+      {/* Город — горизонтальные чипсы */}
+      <div className="schedule-section">
+        <label className="schedule-section-label">{t('site.schedule_city') || 'Город'}</label>
+        <div className="schedule-chips-row">
+          {CITIES.map(city => (
             <button
-              className="date-selector-btn"
-              onClick={() => setShowCalendar(!showCalendar)}
+              key={city.key}
+              className={`schedule-chip${selectedCity === city.key ? ' active' : ''}`}
+              onClick={() => setSelectedCity(city.key)}
             >
-              <span className="date-selector-icon">✈</span>
-              <span className="date-selector-text">
-                {selectedDate
-                  ? `${formatDate(selectedDate)}.${now.getFullYear()}`
-                  : (t('site.schedule_date') || 'Выберите дату')}
-              </span>
-              <span className={`date-selector-arrow${showCalendar ? ' open' : ''}`}>▾</span>
+              {city.label}
             </button>
-
-            {showCalendar && (
-              <div className="date-calendar">
-                <div className="date-calendar-header">{monthLabel}</div>
-                <div className="date-calendar-grid">
-                  {DAY_NAMES.map(d => (
-                    <div key={d} className="date-calendar-day-header">{d}</div>
-                  ))}
-                  {monthDays.map((day, i) => (
-                    <div
-                      key={i}
-                      className={`date-calendar-day${day === null ? ' empty' : ''}${day === selectedDate ? ' selected' : ''}`}
-                      onClick={() => {
-                        if (day !== null) {
-                          setSelectedDate(day);
-                          setShowCalendar(false);
-                        }
-                      }}
-                    >
-                      {day || ''}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Schedule Table — простая читаемая таблица */}
-      <div className="schedule-table-wrapper">
-        <table className="schedule-table">
-          <thead>
-            <tr>
-              <th className="table-col-time">{t('site.schedule_board_time') || 'ВРЕМЯ'}</th>
-              <th className="table-col-status">{t('site.schedule_board_status') || 'СТАТУС'}</th>
-              <th className="table-col-icon"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {slotStatuses.map(({ time, occupied }) => {
-              const isSelected = selectedTime === time;
-              return (
-                <tr
-                  key={time}
-                  className={`schedule-table-row${occupied ? ' occupied' : ' free'}${isSelected ? ' selected' : ''}`}
-                  onClick={() => {
-                    if (!occupied) {
-                      setSelectedTime(isSelected ? null : time);
-                    }
-                  }}
-                >
-                  <td className="table-col-time">{time}</td>
-                  <td className="table-col-status">
-                    {occupied
-                      ? (t('site.schedule_occupied') || 'ЗАНЯТО')
-                      : (t('site.schedule_free') || 'СВОБОДНО')}
-                  </td>
-                  <td className="table-col-icon">
-                    {occupied ? '✗' : '✓'}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      {/* Дата — горизонтальный ряд дней */}
+      <div className="schedule-section">
+        <label className="schedule-section-label">{t('site.schedule_date') || 'Дата'}</label>
+        <div className="schedule-days-scroll">
+          {days.map((date, idx) => {
+            const { day, month, dayName } = formatDayLabel(date);
+            const isActive = selectedDate ? isSameDay(date, selectedDate) : isToday(date);
+            return (
+              <button
+                key={idx}
+                className={`schedule-day-chip${isActive ? ' active' : ''}`}
+                onClick={() => setSelectedDate(date)}
+              >
+                <span className="schedule-day-chip-name">{dayName}</span>
+                <span className="schedule-day-chip-number">{day}</span>
+                <span className="schedule-day-chip-month">{month}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Book Button */}
+      {/* Сетка слотов — 2 колонки */}
+      <div className="schedule-section schedule-slots-section">
+        <label className="schedule-section-label">{t('site.schedule_time') || 'Время'}</label>
+        <div className="schedule-slots-grid">
+          {slotStatuses.map(({ time, occupied }) => {
+            const isSelected = selectedTime === time;
+            return (
+              <button
+                key={time}
+                className={`schedule-slot-card${occupied ? ' occupied' : ' free'}${isSelected ? ' selected' : ''}`}
+                onClick={() => {
+                  if (!occupied) {
+                    setSelectedTime(isSelected ? null : time);
+                  }
+                }}
+                disabled={occupied}
+              >
+                <span className="schedule-slot-time">{time}</span>
+                <span className="schedule-slot-status">
+                  {occupied
+                    ? (t('site.schedule_occupied') || 'ЗАНЯТО')
+                    : (t('site.schedule_free') || 'СВОБОДНО')}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Кнопка записи */}
       <button
         className="schedule-page-book-btn"
         disabled={!selectedCity || !selectedDate || !selectedTime}
