@@ -42,6 +42,47 @@ function hashString(str) {
   return Math.abs(hash);
 }
 
+// Иконка города (SVG)
+function CityIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+// Иконка календаря
+function CalendarIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  );
+}
+
+// Иконка часов
+function ClockIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  );
+}
+
+// Иконка телефона
+function PhoneIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
 export default function SchedulePage({ t }) {
   const navigate = useNavigate();
   const [selectedCity, setSelectedCity] = useState(CITIES[0].key);
@@ -104,7 +145,10 @@ export default function SchedulePage({ t }) {
 
       {/* Город — горизонтальные чипсы */}
       <div className="schedule-section">
-        <label className="schedule-section-label">{t('site.schedule_city') || 'Город'}</label>
+        <label className="schedule-section-label">
+          <CityIcon />
+          {t('site.schedule_city') || 'Город'}
+        </label>
         <div className="schedule-chips-row">
           {CITIES.map(city => (
             <button
@@ -120,20 +164,25 @@ export default function SchedulePage({ t }) {
 
       {/* Дата — горизонтальный ряд дней */}
       <div className="schedule-section">
-        <label className="schedule-section-label">{t('site.schedule_date') || 'Дата'}</label>
+        <label className="schedule-section-label">
+          <CalendarIcon />
+          {t('site.schedule_date') || 'Дата'}
+        </label>
         <div className="schedule-days-scroll">
           {days.map((date, idx) => {
             const { day, month, dayName } = formatDayLabel(date);
             const isActive = selectedDate ? isSameDay(date, selectedDate) : isToday(date);
+            const todayFlag = isToday(date);
             return (
               <button
                 key={idx}
-                className={`schedule-day-chip${isActive ? ' active' : ''}`}
+                className={`schedule-day-chip${isActive ? ' active' : ''}${todayFlag ? ' today' : ''}`}
                 onClick={() => setSelectedDate(date)}
               >
                 <span className="schedule-day-chip-name">{dayName}</span>
                 <span className="schedule-day-chip-number">{day}</span>
                 <span className="schedule-day-chip-month">{month}</span>
+                {todayFlag && <span className="schedule-day-chip-badge">Сегодня</span>}
               </button>
             );
           })}
@@ -142,7 +191,10 @@ export default function SchedulePage({ t }) {
 
       {/* Сетка слотов — 2 колонки */}
       <div className="schedule-section schedule-slots-section">
-        <label className="schedule-section-label">{t('site.schedule_time') || 'Время'}</label>
+        <label className="schedule-section-label">
+          <ClockIcon />
+          {t('site.schedule_time') || 'Время'}
+        </label>
         <div className="schedule-slots-grid">
           {slotStatuses.map(({ time, occupied }) => {
             const isSelected = selectedTime === time;
@@ -175,6 +227,7 @@ export default function SchedulePage({ t }) {
         disabled={!selectedCity || !selectedDate || !selectedTime}
         onClick={handleBook}
       >
+        <PhoneIcon />
         {selectedTime
           ? ((t('site.schedule_book_btn') || 'Записаться на {time}').replace('{time}', selectedTime))
           : (t('site.schedule_book') || 'Записаться')}

@@ -410,7 +410,7 @@
 .back-title {
   font-size: 22px;
   font-weight: 700;
-  color: #fafafa; /* почти белый */
+  color: var(--text-primary);
   margin-bottom: 8px;
   line-height: 1.2;
 }
@@ -425,12 +425,12 @@
 .back-price {
   font-size: 24px;
   font-weight: 800;
-  color: #f5f5f5; /* почти белый */
+  color: var(--text-primary);
 }
 
 .back-duration {
   font-size: 14px;
-  color: rgba(255,255,255,0.7); /* полупрозрачный белый */
+  color: var(--text-secondary);
 }
 
 .back-section {
@@ -440,7 +440,7 @@
 .back-section-title {
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255,255,255,0.6); /* полупрозрачный белый */
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 6px;
@@ -448,7 +448,7 @@
 
 .back-text {
   font-size: 15px;
-  color: #fafafa; /* почти белый */
+  color: var(--text-primary);
   line-height: 1.5;
 }
 
@@ -522,7 +522,7 @@
 /* ---------- Bottom Tab Bar (4 кнопки внизу, как paintx.ru) ---------- */
 .bottom-tab-bar {
   position: fixed;
-  bottom: 12px;
+  bottom: 24px;
   left: 12px;
   right: 12px;
   z-index: 200;
@@ -537,6 +537,14 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-light);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              opacity 0.3s ease;
+}
+
+.bottom-tab-bar.hidden {
+  transform: translateY(calc(100% + 24px));
+  opacity: 0;
+  pointer-events: none;
 }
 
 .bottom-tab-item {
@@ -1245,7 +1253,7 @@
     flex-direction: column;
     min-height: 100dvh;
     background: var(--bg);
-    padding-bottom: 88px; /* место для BottomTabBar */
+    padding-bottom: 100px; /* место для BottomTabBar */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -1297,13 +1305,20 @@
   }
 
   .schedule-section-label {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 13px;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 10px;
+  }
+
+  .schedule-section-label svg {
+    flex-shrink: 0;
+    opacity: 0.7;
   }
 
   /* City Chips */
@@ -1386,6 +1401,27 @@
     border-color: var(--accent);
   }
 
+  .schedule-day-chip.today {
+    position: relative;
+  }
+
+  .schedule-day-chip-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    background: #ff3b30;
+    color: #fff;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
   .schedule-day-chip-name {
     font-size: 11px;
     font-weight: 600;
@@ -1428,6 +1464,30 @@
     background: var(--bg);
     cursor: pointer;
     transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .schedule-slot-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 14px 0 0 14px;
+  }
+
+  .schedule-slot-card.free::before {
+    background: #16a34a;
+  }
+
+  .schedule-slot-card.occupied::before {
+    background: #dc2626;
+  }
+
+  .schedule-slot-card.selected::before {
+    background: #fff;
   }
 
   .schedule-slot-card:not(.occupied):hover {
@@ -1490,6 +1550,10 @@
     cursor: pointer;
     transition: opacity 0.2s;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
   .schedule-page-book-btn:disabled {
@@ -1508,7 +1572,7 @@
     min-height: 100dvh;
     background: var(--bg);
     animation: fadeIn 0.2s ease;
-    padding-bottom: 88px; /* место для BottomTabBar */
+    padding-bottom: 100px; /* место для BottomTabBar */
   }
   
   .blog-header {

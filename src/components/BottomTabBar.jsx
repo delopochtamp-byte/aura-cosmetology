@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPhone,
@@ -11,16 +12,44 @@ import { useTranslation } from '../hooks/useTranslation';
 
 const TABS = [
   { key: 'phone', icon: faPhone, label: 'site.bottom_tab_phone' },
-  { key: 'favorites', icon: faHeartSolid, label: 'site.bottom_tab_favorites' },
   { key: 'schedule', icon: faCalendarAlt, label: 'site.bottom_tab_schedule' },
+  { key: 'favorites', icon: faHeartSolid, label: 'site.bottom_tab_favorites' },
   { key: 'blog', icon: faNewspaper, label: 'site.bottom_tab_blog' },
 ];
 
 export default function BottomTabBar({ activeTab, onTabChange, showFavorites }) {
   const { t } = useTranslation();
+  const [visible, setVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <nav className="bottom-tab-bar">
+    <nav className={`bottom-tab-bar${visible ? '' : ' hidden'}`}>
       {TABS.map(({ key, icon, label }) => {
         // Для кнопки "избранное" переключаем иконку в зависимости от showFavorites
         const isFavActive = key === 'favorites' && showFavorites;
