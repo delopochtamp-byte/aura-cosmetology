@@ -5,7 +5,7 @@ const LS_KEY = 'pwa_install_dismissed';
 export default function PwaInstallBanner({ t }) {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [show, setShow] = useState(false);
-  const [installed, setInstalled] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
 
   useEffect(() => {
     // Проверяем, не закрыли ли баннер ранее
@@ -14,6 +14,10 @@ export default function PwaInstallBanner({ t }) {
     // Если уже установлено как PWA — не показываем
     if (window.matchMedia('(display-mode: standalone)').matches) return;
 
+    // Определяем Android
+    const android = /android/i.test(navigator.userAgent);
+    setIsAndroid(android);
+
     const handleBeforeInstall = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
@@ -21,7 +25,6 @@ export default function PwaInstallBanner({ t }) {
     };
 
     const handleAppInstalled = () => {
-      setInstalled(true);
       setShow(false);
       setDeferredPrompt(null);
       localStorage.setItem(LS_KEY, '1');
@@ -30,22 +33,36 @@ export default function PwaInstallBanner({ t }) {
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
     window.addEventListener('appinstalled', handleAppInstalled);
 
+    // Fallback: если beforeinstallprompt не сработал за 5 сек — показываем баннер вручную
+    const fallbackTimer = setTimeout(() => {
+      if (!show) {
+        setShow(true);
+      }
+    }, 5000);
+
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
       window.removeEventListener('appinstalled', handleAppInstalled);
+      clearTimeout(fallbackTimer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInstall = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const result = await deferredPrompt.userChoice;
-    if (result.outcome === 'accepted') {
-      setInstalled(true);
+    if (deferredPrompt) {
+      // Стандартный PWA-диалог (Android Chrome)
+      deferredPrompt.prompt();
+      const result = await deferredPrompt.userChoice;
+      if (result.outcome === 'accepted') {
+        setShow(false);
+      }
+      setDeferredPrompt(null);
+      localStorage.setItem(LS_KEY, '1');
+    } else {
+      // Fallback: показываем инструкцию (для iOS или если beforeinstallprompt не сработал)
+      setShow(false);
+      localStorage.setItem(LS_KEY, '1');
     }
-    setDeferredPrompt(null);
-    setShow(false);
-    localStorage.setItem(LS_KEY, '1');
   };
 
   const handleDismiss = () => {
@@ -69,13 +86,23 @@ export default function PwaInstallBanner({ t }) {
           {(t && t('site.pwa_install_title')) || 'Установите приложение'}
         </div>
         <div className="pwa-install-desc">
-          {(t && t('site.pwa_install_desc')) || 'Быстрый доступ с главного экрана'}
+          {deferredPrompt
+            ? ((t && t('site.pwa_install_desc')) || 'Быстрый доступ с главного экрана')
+            : (isAndroid
+              ? 'Откройте меню браузера → "Добавить на главный экран"'
+              : 'Установите через меню браузера "Поделиться" → "На экран домой"')}
         </div>
       </div>
       <div className="pwa-install-actions">
-        <button className="pwa-install-btn" onClick={handleInstall}>
-          {(t && t('site.pwa_install_btn')) || 'Установить'}
-        </button>
+        {deferredPrompt ? (
+          <button className="pwa-install-btn" onClick={handleInstall}>
+            {(t && t('site.pwa_install_btn')) || 'Установить'}
+          </button>
+        ) : (
+          <button className="pwa-install-btn" onClick={handleDismiss}>
+            {(t && t('site.pwa_install_btn')) || 'OK'}
+          </button>
+        )}
         <button className="pwa-install-later" onClick={handleDismiss}>
           {(t && t('site.pwa_install_later')) || 'Позже'}
         </button>

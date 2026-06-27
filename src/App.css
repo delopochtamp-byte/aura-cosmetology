@@ -1636,25 +1636,6 @@
     margin: 0;
   }
   
-  .blog-fab {
-    position: fixed;
-    bottom: 200px;
-    right: 24px;
-    width: 56px;
-    height: 56px;
-    border: none;
-    border-radius: 50%;
-    background: var(--accent);
-    color: #fff;
-    font-size: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    cursor: pointer;
-    z-index: 300;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
   
   .blog-fab:hover {
     transform: scale(1.08);

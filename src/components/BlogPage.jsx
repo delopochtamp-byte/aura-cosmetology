@@ -85,13 +85,6 @@ export default function BlogPage({ showFavorites }) {
         )}
       </div>
 
-      {/* FAB */}
-      <button className="blog-fab" onClick={() => setEditorOpen(true)} aria-label={t('site.blog_new_post') || 'Новый пост'}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-          <path d="M12 5v14M5 12h14" />
-        </svg>
-      </button>
-
       {/* Editor */}
       {editorOpen && (
         <BlogEditor
