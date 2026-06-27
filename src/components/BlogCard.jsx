@@ -94,17 +94,17 @@ export default function BlogCard({ post, isLiked, getCount, onToggleLike, t }) {
                   <span className="back-price">{formatDate(post.date)}</span>
                 </div>
 
-                <div className="back-section">
-                  <p className="back-text">{post.text}</p>
-                </div>
-
-                {/* Кнопка открыть на весь экран */}
+                {/* Кнопка открыть на весь экран — сверху, перед текстом */}
                 <button className="back-fullscreen-btn" onClick={openFullscreen}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
                   </svg>
                   {(t && t('site.read_full') || 'Читать полностью')}
                 </button>
+
+                <div className="back-section">
+                  <p className="back-text">{post.text}</p>
+                </div>
 
                 <div className="back-hint">
                   {(t && t('site.tap_to_return')) || 'Нажмите, чтобы вернуться'}
@@ -130,6 +130,9 @@ export default function BlogCard({ post, isLiked, getCount, onToggleLike, t }) {
           <div className="blog-fullscreen-body" onClick={(e) => e.stopPropagation()}>
             <div className="blog-fullscreen-date">{formatDate(post.date)}</div>
             <div className="blog-fullscreen-text">{post.text}</div>
+            <div className="blog-fullscreen-back-hint">
+              {(t && t('site.tap_to_return')) || 'Нажмите, чтобы вернуться'}
+            </div>
           </div>
         </div>
       )}

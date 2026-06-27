@@ -1693,6 +1693,15 @@
     word-break: break-word;
   }
 
+  .blog-fullscreen-back-hint {
+    text-align: center;
+    padding: 24px 0 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    letter-spacing: 0.3px;
+  }
+
   /* Fullscreen кнопка на обратной стороне карточки */
   .back-fullscreen-btn {
     display: flex;
