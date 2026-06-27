@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import services from '../data/services.json';
 import ServiceCard from './ServiceCard';
 import SearchBar from './SearchBar';
+import PwaInstallBanner from './PwaInstallBanner';
 
 export default function FeedPage({
   getLocalized, t, isLiked, getCount,
@@ -66,6 +67,7 @@ export default function FeedPage({
             />
           ))
         )}
+        <PwaInstallBanner t={t} />
       </div>
     </div>
   );
