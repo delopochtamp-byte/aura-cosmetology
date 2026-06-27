@@ -247,6 +247,25 @@
       "ar": "اضغط للعودة",
       "zh": "点击返回"
     },
+    "read_full": {
+      "ru": "Читать полностью",
+      "uk": "Читати повністю",
+      "be": "Чытаць цалкам",
+      "kk": "Толық оқу",
+      "uz": "To'liq o'qish",
+      "ky": "Толук окуу",
+      "tg": "Пурра хондан",
+      "hy": "Կարդալ ամբողջությամբ",
+      "az": "Tam oxumaq",
+      "ro": "Citește integral",
+      "en": "Read full article",
+      "de": "Vollständig lesen",
+      "fr": "Lire en entier",
+      "es": "Leer completo",
+      "tr": "Tamamını oku",
+      "ar": "قراءة كاملة",
+      "zh": "阅读全文"
+    },
     "search_placeholder": {
       "ru": "Поиск услуг...",
       "uk": "Пошук послуг...",

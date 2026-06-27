@@ -1321,124 +1321,65 @@
     opacity: 0.7;
   }
 
-  /* City Chips */
-  .schedule-chips-row {
+  /* City Segment Control (iOS-style) */
+  .schedule-segment {
     display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 4px;
+    gap: 0;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 3px;
+    overflow: hidden;
   }
 
-  .schedule-chips-row::-webkit-scrollbar {
-    display: none;
-  }
-
-  .schedule-chip {
-    flex-shrink: 0;
-    padding: 8px 18px;
-    font-size: 14px;
-    font-weight: 500;
-    border: 1.5px solid var(--border-light);
-    border-radius: 20px;
-    background: var(--bg);
-    color: var(--text-primary);
+  .schedule-segment-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    text-align: center;
   }
 
-  .schedule-chip:hover {
-    border-color: var(--accent);
-    background: var(--bg-secondary);
-  }
-
-  .schedule-chip.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-
-  /* Day Chips (горизонтальный скролл) */
-  .schedule-days-scroll {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-  }
-
-  .schedule-days-scroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  .schedule-day-chip {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    padding: 10px 14px;
-    min-width: 60px;
-    border: 1.5px solid var(--border-light);
-    border-radius: 14px;
+  .schedule-segment-btn.active {
     background: var(--bg);
     color: var(--text-primary);
-    cursor: pointer;
-    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   }
 
-  .schedule-day-chip:hover {
-    border-color: var(--accent);
-    background: var(--bg-secondary);
-  }
-
-  .schedule-day-chip.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-
-  .schedule-day-chip.today {
+  /* Date Select (dropdown) */
+  .schedule-date-select-wrapper {
     position: relative;
   }
 
-  .schedule-day-chip-badge {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    font-size: 8px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    padding: 2px 6px;
-    border-radius: 8px;
-    background: #ff3b30;
-    color: #fff;
-    line-height: 1;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .schedule-day-chip-name {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    opacity: 0.7;
-  }
-
-  .schedule-day-chip-number {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.1;
-  }
-
-  .schedule-day-chip-month {
-    font-size: 10px;
+  .schedule-date-select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
     font-weight: 500;
-    opacity: 0.7;
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+
+  .schedule-date-select:focus {
+    border-color: var(--accent);
+    outline: none;
   }
 
   /* Slots Grid — 2 колонки */
@@ -1647,7 +1588,7 @@
   
   .blog-fab {
     position: fixed;
-    bottom: 100px;
+    bottom: 110px;
     right: 24px;
     width: 56px;
     height: 56px;
@@ -1673,7 +1614,110 @@
   .blog-fab:active {
     transform: scale(0.95);
   }
-  
+
+  /* Fullscreen overlay для статей блога */
+  .blog-fullscreen-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: var(--bg);
+    animation: fadeIn 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .blog-fullscreen-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    padding-top: calc(12px + env(safe-area-inset-top, 0));
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg);
+  }
+
+  .blog-fullscreen-header h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 12px;
+  }
+
+  .blog-fullscreen-close {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .blog-fullscreen-close:hover {
+    background: var(--border-light);
+  }
+
+  .blog-fullscreen-body {
+    padding: 20px 16px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0));
+    flex: 1;
+  }
+
+  .blog-fullscreen-date {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .blog-fullscreen-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Fullscreen кнопка на обратной стороне карточки */
+  .back-fullscreen-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .back-fullscreen-btn:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
   /* ========== BlogEditor ========== */
   .blog-editor-overlay {
     position: fixed;

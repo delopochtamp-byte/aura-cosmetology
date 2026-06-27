@@ -131,6 +131,26 @@ export default function SchedulePage({ t }) {
       a.getFullYear() === b.getFullYear();
   };
 
+  // Форматируем дату для отображения в dropdown
+  const formatDateOption = (date) => {
+    const { day, month, dayName } = formatDayLabel(date);
+    const todayFlag = isToday(date);
+    return {
+      value: date.toISOString(),
+      label: todayFlag
+        ? `Сегодня, ${day} ${month}`
+        : `${dayName}, ${day} ${month}`,
+      date,
+    };
+  };
+
+  // Устанавливаем сегодняшнюю дату по умолчанию при первом рендере
+  useEffect(() => {
+    if (!selectedDate) {
+      setSelectedDate(now);
+    }
+  }, []);
+
   return (
     <div className="schedule-page">
       {/* Header */}
@@ -143,17 +163,17 @@ export default function SchedulePage({ t }) {
         <h1>{t('site.schedule_title') || 'Расписание'}</h1>
       </div>
 
-      {/* Город — горизонтальные чипсы */}
+      {/* Город — сегментированный контроль (iOS-style) */}
       <div className="schedule-section">
         <label className="schedule-section-label">
           <CityIcon />
           {t('site.schedule_city') || 'Город'}
         </label>
-        <div className="schedule-chips-row">
+        <div className="schedule-segment">
           {CITIES.map(city => (
             <button
               key={city.key}
-              className={`schedule-chip${selectedCity === city.key ? ' active' : ''}`}
+              className={`schedule-segment-btn${selectedCity === city.key ? ' active' : ''}`}
               onClick={() => setSelectedCity(city.key)}
             >
               {city.label}
@@ -162,30 +182,30 @@ export default function SchedulePage({ t }) {
         </div>
       </div>
 
-      {/* Дата — горизонтальный ряд дней */}
+      {/* Дата — выпадающий список */}
       <div className="schedule-section">
         <label className="schedule-section-label">
           <CalendarIcon />
           {t('site.schedule_date') || 'Дата'}
         </label>
-        <div className="schedule-days-scroll">
-          {days.map((date, idx) => {
-            const { day, month, dayName } = formatDayLabel(date);
-            const isActive = selectedDate ? isSameDay(date, selectedDate) : isToday(date);
-            const todayFlag = isToday(date);
-            return (
-              <button
-                key={idx}
-                className={`schedule-day-chip${isActive ? ' active' : ''}${todayFlag ? ' today' : ''}`}
-                onClick={() => setSelectedDate(date)}
-              >
-                <span className="schedule-day-chip-name">{dayName}</span>
-                <span className="schedule-day-chip-number">{day}</span>
-                <span className="schedule-day-chip-month">{month}</span>
-                {todayFlag && <span className="schedule-day-chip-badge">Сегодня</span>}
-              </button>
-            );
-          })}
+        <div className="schedule-date-select-wrapper">
+          <select
+            className="schedule-date-select"
+            value={selectedDate ? selectedDate.toISOString() : ''}
+            onChange={(e) => {
+              const found = days.find(d => d.toISOString() === e.target.value);
+              if (found) setSelectedDate(found);
+            }}
+          >
+            {days.map((date, idx) => {
+              const opt = formatDateOption(date);
+              return (
+                <option key={idx} value={opt.value}>
+                  {opt.label}
+                </option>
+              );
+            })}
+          </select>
         </div>
       </div>
 
