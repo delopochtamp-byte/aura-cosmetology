@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const LS_KEY = 'pwa_install_dismissed';
+const LS_KEY = 'pwa_install_dismissed_v2';
 
 export default function PwaInstallBanner({ t }) {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -8,7 +8,7 @@ export default function PwaInstallBanner({ t }) {
   const [isAndroid, setIsAndroid] = useState(false);
 
   useEffect(() => {
-    // Проверяем, не закрыли ли баннер ранее
+    // Проверяем, не закрыли ли баннер ранее (версионированный ключ)
     if (localStorage.getItem(LS_KEY)) return;
 
     // Если уже установлено как PWA — не показываем
@@ -33,12 +33,10 @@ export default function PwaInstallBanner({ t }) {
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    // Fallback: если beforeinstallprompt не сработал за 5 сек — показываем баннер вручную
+    // Fallback: если beforeinstallprompt не сработал за 1 сек — показываем баннер вручную
     const fallbackTimer = setTimeout(() => {
-      if (!show) {
-        setShow(true);
-      }
-    }, 5000);
+      setShow(true);
+    }, 1000);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);

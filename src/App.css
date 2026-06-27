@@ -1566,25 +1566,6 @@
     padding-bottom: 120px; /* место для BottomTabBar и FAB */
   }
   
-  .blog-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    padding-top: calc(12px + env(safe-area-inset-top, 0));
-    border-bottom: 1px solid var(--border-light);
-    background: var(--bg);
-    z-index: 2;
-  }
-  
-  .blog-header h1 {
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0;
-    color: var(--text);
-    flex: 1;
-  }
-  
   .blog-back-btn {
     width: 36px;
     height: 36px;

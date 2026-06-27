@@ -3,7 +3,6 @@ import { useTranslation } from '../hooks/useTranslation';
 import { useLikes } from '../hooks/useLikes';
 import { SEED_POSTS } from '../data/blogSeed';
 import BlogCard from './BlogCard';
-import BlogEditor from './BlogEditor';
 
 const STORAGE_KEY = 'aura_blog_posts';
 
@@ -29,7 +28,6 @@ export default function BlogPage({ showFavorites }) {
   const { t } = useTranslation();
   const { isLiked, getCount, toggleLike } = useLikes();
   const [posts, setPosts] = useState([]);
-  const [editorOpen, setEditorOpen] = useState(false);
 
   useEffect(() => {
     setPosts(loadPosts());
@@ -57,11 +55,6 @@ export default function BlogPage({ showFavorites }) {
 
   return (
     <div className="blog-page">
-      {/* Header — без кнопки назад, переключатель в Header.jsx */}
-      <div className="blog-header">
-        <h1>{t('site.blog_title') || 'Блог'}</h1>
-      </div>
-
       {/* Лента постов — карточки как в каталоге */}
       <div className="feed-scroll-container hide-scrollbar">
         {filteredPosts.length === 0 ? (
@@ -84,15 +77,6 @@ export default function BlogPage({ showFavorites }) {
           ))
         )}
       </div>
-
-      {/* Editor */}
-      {editorOpen && (
-        <BlogEditor
-          t={t}
-          onPublish={handlePublish}
-          onClose={() => setEditorOpen(false)}
-        />
-      )}
     </div>
   );
 }
